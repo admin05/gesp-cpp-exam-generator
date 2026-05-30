@@ -21,6 +21,7 @@ from .question_bank import CHOICE_QUESTIONS, PROGRAMMING_TASKS
 
 ROOT = Path(__file__).resolve().parent
 DB_PATH = Path(os.environ.get("EXAM_DB", "/data/exam.db"))
+JUDGE_DIR = Path(os.environ.get("JUDGE_DIR", "/judge"))
 HOST = os.environ.get("HOST", "0.0.0.0")
 PORT = int(os.environ.get("PORT", "8000"))
 LETTERS = ["A", "B", "C", "D"]
@@ -122,7 +123,8 @@ def run_cpp_judge(code: str, tests: list[dict]) -> dict:
             "cases": [],
         }
 
-    with tempfile.TemporaryDirectory(prefix="gesp-judge-") as td:
+    JUDGE_DIR.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="gesp-judge-", dir=JUDGE_DIR) as td:
         workdir = Path(td)
         src = workdir / "main.cpp"
         exe = workdir / "main"
@@ -144,6 +146,7 @@ def run_cpp_judge(code: str, tests: list[dict]) -> dict:
                 "total": len(tests),
                 "cases": [],
             }
+        exe.chmod(0o755)
 
         cases = []
         passed = 0
@@ -159,6 +162,14 @@ def run_cpp_judge(code: str, tests: list[dict]) -> dict:
             except subprocess.TimeoutExpired:
                 cases.append({"index": index, "status": "TLE", "expected": test["output"], "actual": ""})
                 continue
+            except PermissionError as exc:
+                return {
+                    "status": "SYSTEM_ERROR",
+                    "message": f"判题程序无法执行：{exc}",
+                    "passed": passed,
+                    "total": len(tests),
+                    "cases": cases,
+                }
 
             actual = result.stdout
             ok = result.returncode == 0 and normalize_output(actual) == normalize_output(test["output"])

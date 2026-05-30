@@ -12,7 +12,7 @@ services:
     volumes:
       - gesp_exam_data:/data
     tmpfs:
-      - /tmp:size=256m
+      - /judge:size=256m,exec
     security_opt:
       - no-new-privileges:true
     pids_limit: 256

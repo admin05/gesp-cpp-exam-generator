@@ -10,6 +10,7 @@
 - 考生提交 C++17 编程题代码。
 - 平台使用容器内 `g++` 编译代码，并用题目样例统计通过数量。
 - SQLite 持久化保存试卷和提交记录。
+- 编程题会在容器内 `/judge` 临时目录编译运行，该目录在 Compose 中以可执行 tmpfs 挂载。
 
 ## Docker Compose 部署
 
@@ -62,6 +63,15 @@ docker compose -f docker-compose.ghcr.yml up -d
 ```
 
 更推荐保持默认的命名卷配置，少踩权限坑。
+
+如果提交编程题时报 `Permission denied: '/tmp/gesp-judge.../main'`，说明仍在运行旧镜像或旧 compose。更新到包含 `/judge:size=256m,exec` 的版本后重启：
+
+```bash
+git pull
+docker compose -f docker-compose.ghcr.yml pull
+docker compose -f docker-compose.ghcr.yml down
+docker compose -f docker-compose.ghcr.yml up -d
+```
 
 ## 生产提醒
 
