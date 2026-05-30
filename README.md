@@ -18,6 +18,7 @@ The materials were produced through an iterative teaching workflow:
 - `docs/`: generated Word papers.
 - `scripts/`: Python scripts used to generate or transform the papers.
 - `notes/`: project notes, requirement mapping, and verification records.
+- `online_exam/`: Docker Compose deployable local online exam platform.
 
 ## Main Deliverables
 
@@ -44,3 +45,19 @@ programming samples were checked programmatically.
 The GESP-style papers are adapted from the publicly visible topic distribution
 and official exam style. They are not verbatim copies of official GESP papers.
 
+## Online Exam Platform
+
+This repo now also includes a lightweight local platform for NAS deployment.
+
+```bash
+docker compose up -d --build
+```
+
+Then open:
+
+- Student entry: `http://NAS-IP:8088/`
+- Admin panel: `http://NAS-IP:8088/admin`
+
+The platform stores data in `data/exam.db`, lets admins generate papers by
+question count, supports online choice-question answering, and compiles/runs
+C++17 submissions against the bundled sample tests.

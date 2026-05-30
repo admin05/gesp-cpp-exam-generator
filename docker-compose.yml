@@ -1,0 +1,21 @@
+services:
+  gesp-exam:
+    build: .
+    image: gesp-cpp-exam-platform:local
+    container_name: gesp-cpp-exam
+    restart: unless-stopped
+    ports:
+      - "8088:8000"
+    environment:
+      EXAM_DB: /data/exam.db
+      HOST: 0.0.0.0
+      PORT: 8000
+    volumes:
+      - ./data:/data
+    tmpfs:
+      - /tmp:size=256m
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 256
+    mem_limit: 512m
+
