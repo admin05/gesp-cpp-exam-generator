@@ -9,7 +9,6 @@ import shutil
 import sqlite3
 import subprocess
 import tempfile
-import time
 from datetime import datetime
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -78,38 +77,42 @@ def normalize_output(value: str) -> str:
     return "\n".join(line.rstrip() for line in lines).strip()
 
 
-def balanced_pick(items: list[dict], count: int, seed: int) -> list[dict]:
+def balanced_pick(items: list[dict], count: int) -> list[dict]:
     if count <= 0:
         return []
+    limit = min(count, len(items))
     grouped: dict[str, list[dict]] = {}
     for item in items:
         grouped.setdefault(item["category"], []).append(item)
 
-    rng = random.Random(seed)
+    rng = random.SystemRandom()
     for bucket in grouped.values():
         rng.shuffle(bucket)
 
     selected: list[dict] = []
-    categories = sorted(grouped)
-    cursor = 0
-    while len(selected) < min(count, len(items)):
-        category = categories[cursor % len(categories)]
-        bucket = grouped[category]
-        if bucket:
-            selected.append(bucket.pop())
-        cursor += 1
+    categories = list(grouped)
+    rng.shuffle(categories)
+    while len(selected) < limit and categories:
+        remaining_categories = []
+        for category in categories:
+            bucket = grouped[category]
+            if bucket and len(selected) < limit:
+                selected.append(bucket.pop())
+            if bucket:
+                remaining_categories.append(category)
+        categories = remaining_categories
+        rng.shuffle(categories)
     rng.shuffle(selected)
     return selected
 
 
 def build_exam(title: str, choice_count: int, program_count: int, duration: int) -> dict:
-    seed = int(time.time())
     return {
         "title": title,
         "duration_minutes": duration,
         "principle": "GESP C++ 四级偏上 / 五级入门：表达式、循环、数组字符串、函数递推、排序搜索、筛法质数、贪心枚举与逻辑推理均衡覆盖。",
-        "choice_questions": balanced_pick(CHOICE_QUESTIONS, choice_count, seed),
-        "programming_tasks": balanced_pick(PROGRAMMING_TASKS, program_count, seed + 17),
+        "choice_questions": balanced_pick(CHOICE_QUESTIONS, choice_count),
+        "programming_tasks": balanced_pick(PROGRAMMING_TASKS, program_count),
     }
 
 
