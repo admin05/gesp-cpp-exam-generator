@@ -291,7 +291,13 @@ def admin_page(message: str = "") -> bytes:
               <td>{h(exam["title"])}</td>
               <td>{len(payload["choice_questions"])} / {len(payload["programming_tasks"])}</td>
               <td>{h(exam["created_at"])}</td>
-              <td><a href="/exam/{exam["id"]}">考试页</a> · <a href="/admin/exams/{exam["id"]}">成绩</a></td>
+              <td class="actions">
+                <a href="/exam/{exam["id"]}">考试页</a>
+                <a href="/admin/exams/{exam["id"]}">成绩</a>
+                <form method="post" action="/admin/exams/{exam["id"]}/delete" onsubmit="return confirm('确定删除这份试卷和所有提交记录吗？');">
+                  <button class="link-danger" type="submit">删除</button>
+                </form>
+              </td>
             </tr>
             """
         )
@@ -524,6 +530,15 @@ def handle_create_exam(params: dict[str, list[str]]) -> bytes:
     return redirect(f"/admin/exams/{exam_id}")
 
 
+def handle_delete_exam(exam_id: int) -> bytes:
+    with db() as conn:
+        exam = conn.execute("SELECT id FROM exams WHERE id = ?", (exam_id,)).fetchone()
+        if exam:
+            conn.execute("DELETE FROM submissions WHERE exam_id = ?", (exam_id,))
+            conn.execute("DELETE FROM exams WHERE id = ?", (exam_id,))
+    return redirect("/admin")
+
+
 def handle_submit(exam_id: int, params: dict[str, list[str]]) -> bytes:
     exam = load_exam(exam_id)
     if not exam:
@@ -640,6 +655,10 @@ class Handler(BaseHTTPRequestHandler):
         path = urlparse(self.path).path
         if path == "/admin/exams":
             self.send_html(handle_create_exam(params))
+            return
+        match = re.fullmatch(r"/admin/exams/(\d+)/delete", path)
+        if match:
+            self.send_html(handle_delete_exam(int(match.group(1))))
             return
         match = re.fullmatch(r"/exam/(\d+)/submit", path)
         if match:
