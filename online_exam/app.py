@@ -596,8 +596,9 @@ def result_page(submission_id: int) -> bytes:
     for item in detail["programs"]:
         case_rows = []
         for case in item["result"]["cases"]:
+            test_input = case.get("input", "旧记录未保存输入")
             case_rows.append(
-                f"<tr><td>{case['index']}</td><td><span class=\"badge {h(case['status']).lower()}\">{h(case['status'])}</span></td><td>隐藏测试不公开</td></tr>"
+                f"<tr><td>{case['index']}</td><td><span class=\"badge {h(case['status']).lower()}\">{h(case['status'])}</span></td><td><pre>{h(test_input)}</pre></td><td><pre>{h(case['expected'])}</pre></td><td><pre>{h(case['actual'])}</pre></td></tr>"
             )
         msg = f"<pre class=\"compile-msg\">{h(item['result']['message'])}</pre>" if item["result"]["message"] else ""
         program_blocks.append(
@@ -605,7 +606,7 @@ def result_page(submission_id: int) -> bytes:
             <section class="question-card">
               <div class="q-head"><span>{h(item["title"])}</span><small>{item["result"]["passed"]}/{item["result"]["total"]}</small></div>
               {msg}
-              <table class="samples result-cases"><thead><tr><th>#</th><th>状态</th><th>说明</th></tr></thead><tbody>{''.join(case_rows) or '<tr><td colspan="3">未运行测试</td></tr>'}</tbody></table>
+              <table class="samples result-cases"><thead><tr><th>#</th><th>状态</th><th>隐藏测试输入</th><th>正确输出</th><th>考生输出</th></tr></thead><tbody>{''.join(case_rows) or '<tr><td colspan="5">未运行测试</td></tr>'}</tbody></table>
             </section>
             """
         )
