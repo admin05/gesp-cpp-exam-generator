@@ -402,6 +402,23 @@ textarea:focus {
   line-height: 1.5;
 }
 
+.richtext {
+  line-height: 1.7;
+}
+
+.richtext p {
+  margin: 0 0 10px;
+}
+
+.richtext img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #ffffff;
+}
+
 .options {
   display: grid;
   gap: 8px;

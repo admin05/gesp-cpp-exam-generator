@@ -244,6 +244,29 @@ def render_code(code: str) -> str:
     return f"<pre class=\"code\"><code>{h(code)}</code></pre>"
 
 
+def render_question_html(raw_html: str) -> str:
+    if not raw_html:
+        return ""
+    content = raw_html
+    content = re.sub(r"\sstyle=\"[^\"]*\"", "", content, flags=re.IGNORECASE)
+    content = re.sub(r"\sclass=\"[^\"]*\"", "", content, flags=re.IGNORECASE)
+    content = re.sub(r"<script\b[^>]*>.*?</script>", "", content, flags=re.IGNORECASE | re.DOTALL)
+    content = re.sub(r"<(?!/?(?:p|br|span|strong|b|em|i|code|pre|img)\b)[^>]+>", "", content, flags=re.IGNORECASE)
+    content = re.sub(r"<img\b([^>]*)>", _sanitize_img_tag, content, flags=re.IGNORECASE)
+    content = re.sub(r"<(p|br|span|strong|b|em|i|code|pre)\b[^>]*>", r"<\1>", content, flags=re.IGNORECASE)
+    return f"<div class=\"richtext\">{content}</div>"
+
+
+def _sanitize_img_tag(match: re.Match[str]) -> str:
+    src_match = re.search(r"\bsrc=[\"']([^\"']+)[\"']", match.group(1), flags=re.IGNORECASE)
+    if not src_match:
+        return ""
+    src = src_match.group(1)
+    if not src.startswith(("https://cdn2.1717youxue.com/", "https://study.1717youxue.com/")):
+        return ""
+    return f"<img src=\"{h(src)}\" alt=\"题目图片\" loading=\"lazy\">"
+
+
 def load_exam(exam_id: int) -> sqlite3.Row | None:
     with db() as conn:
         return conn.execute("SELECT * FROM exams WHERE id = ?", (exam_id,)).fetchone()
@@ -389,6 +412,7 @@ def exam_page(exam_id: int) -> bytes:
             <section class="question-card" id="q{i}">
               <div class="q-head"><span>选择题 {i}</span><small>{h(q["category"])} · 难度 {q["difficulty"]}</small></div>
               <p>{h(q["stem"])}</p>
+              {render_question_html(q.get("content_html", ""))}
               {render_code(q["code"])}
               <div class="options">{''.join(opts)}</div>
             </section>
@@ -399,6 +423,16 @@ def exam_page(exam_id: int) -> bytes:
     for pi, task in enumerate(payload["programming_tasks"], 1):
         nav.append(f"<a href=\"#p{pi}\" data-target=\"p{pi}\">P{pi}</a>")
         public_tests = task.get("public_tests") or task["tests"][:1]
+        test_label = (
+            f"公开样例 {len(task['tests'])} 组"
+            if task.get("source", "").endswith("导入")
+            else f"隐藏测试 {len(task['tests'])} 组"
+        )
+        sample_note = (
+            f"本题导入了 {len(task['tests'])} 组公开样例，提交后按这些样例评分。"
+            if task.get("source", "").endswith("导入")
+            else "公开样例仅用于理解题意，提交后使用 5 组隐藏测试评分。"
+        )
         samples = "".join(
             f"<tr><td>{idx}</td><td><pre>{h(t['input'])}</pre></td><td><pre>{h(t['output'])}</pre></td></tr>"
             for idx, t in enumerate(public_tests, 1)
@@ -406,14 +440,14 @@ def exam_page(exam_id: int) -> bytes:
         program_html.append(
             f"""
             <section class="question-card" id="p{pi}">
-              <div class="q-head"><span>编程题 {pi}. {h(task["title"])}</span><small>{h(task["category"])} · 隐藏测试 {len(task["tests"])} 组</small></div>
+              <div class="q-head"><span>编程题 {pi}. {h(task["title"])}</span><small>{h(task["category"])} · {h(test_label)}</small></div>
               <p>{h(task["description"])}</p>
               <div class="io-grid">
                 <div><b>输入格式</b><p>{h(task["input"])}</p></div>
                 <div><b>输出格式</b><p>{h(task["output"])}</p></div>
               </div>
               <p class="hint">数据范围：{h(task["constraints"])}</p>
-              <p class="hint">公开样例仅用于理解题意，提交后使用 5 组隐藏测试评分。</p>
+              <p class="hint">{h(sample_note)}</p>
               <table class="samples"><thead><tr><th>#</th><th>公开输入</th><th>公开输出</th></tr></thead><tbody>{samples}</tbody></table>
               <label class="code-label">提交 C++17 代码
                 <textarea name="code_{pi}" spellcheck="false">#include &lt;iostream&gt;

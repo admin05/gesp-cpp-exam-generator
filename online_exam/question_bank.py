@@ -1668,5 +1668,397 @@ PUBLIC_PROGRAMMING_TESTS = {
 }
 
 
+IMPORTED_FUZHOU_CHOICE_QUESTIONS = [{'id': 'fz-choice-2059582597629173761',
+  'category': '程序阅读',
+  'difficulty': 4,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '已知直线上两点A、B的坐标分别是x1, x2，以下哪个可以计算两点的距离（ ）。',
+  'code': '',
+  'options': ['max(x1, x2)', 'pow(x1, x2)', 'abs(x1-x2)', 'sqrt(x1-x2)'],
+  'answer': 2},
+ {'id': 'fz-choice-2059582983035379713',
+  'category': '数组',
+  'difficulty': 4,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '执行以下 C++代码后，数组 arr 的内容是（ ）。',
+  'code': 'int arr[4] = {1, 2, 3};\narr[3] = arr[0] + arr[1];',
+  'options': ['{1, 2, 3, 3}', '{1, 2, 3, 4}', '{1, 2, 3, 5}', '{1, 2, 3, 6}'],
+  'answer': 0},
+ {'id': 'fz-choice-2059583201814470657',
+  'category': '进制转换',
+  'difficulty': 4,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '二进制数00100110，转成八进制数是（ ）。',
+  'code': '',
+  'options': ['112', '046', '26', '026'],
+  'answer': 1},
+ {'id': 'fz-choice-2059583445549670402',
+  'category': '程序阅读',
+  'difficulty': 4,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '假设 int arr[2][3] = {{1,2,3},{7,8,9}};，则 arr[1][2] 的值是（\u3000）。',
+  'code': '',
+  'options': ['2', '3', '8', '9'],
+  'answer': 3},
+ {'id': 'fz-choice-2059583663972245505',
+  'category': '程序阅读',
+  'difficulty': 4,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '执行以下 C++代码后，变量 sum 的值是（ ）。',
+  'code': 'int sum = 0;\nfor (int i = 1; i <= 5; i += 2) {\n sum += i;\n}',
+  'options': ['6', '9', '15', '死循环'],
+  'answer': 1},
+ {'id': 'fz-choice-2059583891135750146',
+  'category': '程序阅读',
+  'difficulty': 4,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '下面 C++ 代码执行后的输出是（ ）。',
+  'code': 'int m = 7;\n'
+          'if (m / 5 || m / 3)\n'
+          ' cout << 0;\n'
+          'else if (m / 3)\n'
+          ' cout << 1;\n'
+          'else if (m / 5)\n'
+          ' cout << 2;\n'
+          'else\n'
+          ' cout << 3;',
+  'options': ['0', '1', '2', '3'],
+  'answer': 0},
+ {'id': 'fz-choice-2059584056043200514',
+  'category': '程序阅读',
+  'difficulty': 4,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '下面C++代码第2行，总共被执行次数是（ ）。',
+  'code': 'for(int i=-10; i<10; i++)\n cout << i << " ";',
+  'options': ['10', '19', '20', '21'],
+  'answer': 2},
+ {'id': 'fz-choice-2059584213455429633',
+  'category': '计算机基础',
+  'difficulty': 4,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '以下哪个属于计算机的输出设备（ ）。',
+  'code': '',
+  'options': ['键盘', '打印机', 'CPU', '内存'],
+  'answer': 1},
+ {'id': 'fz-choice-2059584398151606273',
+  'category': '程序阅读',
+  'difficulty': 4,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '执行下面C++代码可以找出千位与个位的和恰好等于中间两位的四位数，横线处应该填入（ ）',
+  'code': 'int count = 0;\n'
+          'int a, bc, d;\n'
+          'for (int i = 1000; i <= 9999; i++) {\n'
+          ' a = i / 1000;\n'
+          ' d = i % 10;\n'
+          ' _________________________\n'
+          ' bc = bc / 10;\n'
+          ' if ( a + d == bc) {\n'
+          ' count++;\n'
+          ' }\n'
+          '}\n'
+          'cout << count;',
+  'options': ['bc = i - a * 1000;', 'bc = i / 10;', 'bc = i % 100;', 'bc = i - i % 1000;'],
+  'answer': 0},
+ {'id': 'fz-choice-2059584552971755522',
+  'category': '函数',
+  'difficulty': 4,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '当 n=7 时，下面函数的返回值为（ ）。',
+  'code': 'int fun(int n) {\n'
+          ' if (n == 1) return 1;\n'
+          ' else if (n >= 5) return n * fun(n - 2);\n'
+          ' else return n * fun(n - 1);\n'
+          '}',
+  'options': ['105', '840', '210', '420'],
+  'answer': 2},
+ {'id': 'fz-choice-1981613825937563650',
+  'category': '概率统计',
+  'difficulty': 4,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '掷一个六面骰子，求点数大于4的概率。 （  ）',
+  'code': '',
+  'options': ['1/3', '1/4', '1/6', '1/2'],
+  'answer': 0},
+ {'id': 'fz-choice-1981614003763470337',
+  'category': '贪心',
+  'difficulty': 4,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '现有3种面值的硬币：1元、2元、5元。要凑13元，最少需要几枚硬币？（  ）',
+  'code': '',
+  'options': ['3', '4', '5', '6'],
+  'answer': 1},
+ {'id': 'fz-choice-1981614493364576258',
+  'category': '数组',
+  'difficulty': 4,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '对数组 {4,2,5,1} 用冒泡排序升序排列，第一趟排序结果可能是？（  ）',
+  'code': '',
+  'options': ['{2,4,1,5}', '{2,1,4,5}', '{1,2,4,5}', '{4,2,1,5}'],
+  'answer': 0},
+ {'id': 'fz-choice-1981614758188736514',
+  'category': '程序阅读',
+  'difficulty': 4,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '以下代码的输出结果是什么？（  ）',
+  'code': '',
+  'options': ['73', '73.14', '105.14', '编译错误'],
+  'answer': 1,
+  'content_html': '<p><img '
+                  'src="https://cdn2.1717youxue.com/static/qdstudy/predetermine/b8c50d8f6cb24911946061faaa043e66.png"></p>'},
+ {'id': 'fz-choice-1981614953790103554',
+  'category': '递归递推',
+  'difficulty': 4,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '以下递归函数调用 f(48,18) 的输出是？  （  ）',
+  'code': '',
+  'options': ['6', '2', '1', '8'],
+  'answer': 0,
+  'content_html': '<p><img '
+                  'src="https://cdn2.1717youxue.com/static/qdstudy/predetermine/dcd365024ab747b1996adfd3bafc92e4.png"></p>'},
+ {'id': 'fz-choice-1981615357860962306',
+  'category': '字符串',
+  'difficulty': 4,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '下面C++代码实现给定一个字符串，对其进行加密处理。',
+  'code': '',
+  'options': ["(c -'a' + 1 ) % 26 + 'A'\n(c - 'A' + 1) % 26 + 'a'",
+              "(c -'a' + 1 ) % 26 + 'a'\n(c - 'A' + 1) % 26 + 'A'",
+              "(c -'A' + 1 ) % 26 + 'a'\n(c - 'a' + 1) % 26 + 'A'",
+              "(c -'a' ) + 'A'\n(c - 'A' ) + 'a'"],
+  'answer': 0,
+  'content_html': '<p class="MsoNormal"><span style="font-family: 宋体;">加密的规则如下：</span></p>\n'
+                  '<p class="MsoNormal"><span style="font-family: 宋体;">字符串中的小写字母，</span><span style="font-family: '
+                  'Calibri;">a </span><span style="font-family: 宋体;">加密为 </span><span style="font-family: '
+                  'Calibri;">B</span><span style="font-family: 宋体;">，</span><span style="font-family: Calibri;">b '
+                  '</span><span style="font-family: 宋体;">加密为 </span><span style="font-family: '
+                  'Calibri;">C</span><span style="font-family: 宋体;">，</span><span style="font-family: '
+                  '宋体;">&hellip;，</span><span style="font-family: Calibri;">y </span><span style="font-family: '
+                  '宋体;">加密为 </span><span style="font-family: Calibri;">Z</span><span style="font-family: '
+                  '宋体;">，</span><span style="font-family: Calibri;">z </span><span style="font-family: 宋体;">加密为 '
+                  '</span><span style="font-family: Calibri;">A</span><span style="font-family: 宋体;">。</span></p>\n'
+                  '<p class="MsoNormal"><span style="font-family: 宋体;">字符串中的大写字母，</span><span style="font-family: '
+                  'Calibri;">A </span><span style="font-family: 宋体;">加密为 </span><span style="font-family: '
+                  'Calibri;">b</span><span style="font-family: 宋体;">，</span><span style="font-family: Calibri;">B '
+                  '</span><span style="font-family: 宋体;">加密为 </span><span style="font-family: '
+                  'Calibri;">c</span><span style="font-family: 宋体;">，</span><span style="font-family: '
+                  '宋体;">&hellip;，</span><span style="font-family: Calibri;">Y </span><span style="font-family: '
+                  '宋体;">加密为 </span><span style="font-family: Calibri;">z</span><span style="font-family: '
+                  '宋体;">，</span><span style="font-family: Calibri;">Z </span><span style="font-family: 宋体;">加密为 '
+                  '</span><span style="font-family: Calibri;">a</span><span style="font-family: 宋体;">。</span></p>\n'
+                  '<p class="MsoNormal"><span style="font-family: 宋体;">字符串中的其他字符，不作处理。</span></p>\n'
+                  '<p class="MsoNormal"><span style="font-family: 宋体;">例如，输入</span><span style="font-family: '
+                  'Calibri;">How are you!</span><span style="font-family: 宋体;">，输出</span><span style="font-family: '
+                  'Calibri;">iPX BSF ZPV!</span><span style="font-family: 宋体;">。</span><span style="font-family: '
+                  '宋体;">在横线处应填入代码是（</span> <span style="font-family: 宋体;">）。</span></p>\n'
+                  '<p class="MsoNormal"><span style="font-family: 宋体;"><img '
+                  'src="https://cdn2.1717youxue.com/static/qdstudy/predetermine/aa2ccfe313df43c0a8d3284a3286c351.png"></span></p>'},
+ {'id': 'fz-choice-1981615583967502337',
+  'category': '程序阅读',
+  'difficulty': 4,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '下面代码输入5 6 2 1 1 0，则输出是（  ）。',
+  'code': '',
+  'options': ['0 1 1 2 6', '0 1 2 6', '6 2 1 1 0', '6 2 1 0'],
+  'answer': 1,
+  'content_html': '<p><img '
+                  'src="https://cdn2.1717youxue.com/static/qdstudy/predetermine/6502f44da6034c90bb3ee023bc8708ee.png"></p>'},
+ {'id': 'fz-choice-1981615823407734785',
+  'category': '二分查找',
+  'difficulty': 4,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '以下哪种情况下不适合使用二分查找法？（ ）',
+  'code': '',
+  'options': ['在一个严格递增的整数数组中查找目标值', '在一个降序排列的整数数组中查找目标值', '在一个完全无序且元素随机的数组中查找目标值', '在一个部分有序但能确定单调性的区间中查找目标值'],
+  'answer': 2},
+ {'id': 'fz-choice-1981616037921218562',
+  'category': '数组',
+  'difficulty': 4,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '在下列代码的横线处填写（ ），完成对有 n 个 int 类型元素的数组 a由小到大排序。',
+  'code': '',
+  'options': ['now < a[j]', 'now > a[j]', 'now < a[i]', 'now > a[i]'],
+  'answer': 0,
+  'content_html': '<p><img '
+                  'src="https://cdn2.1717youxue.com/static/qdstudy/predetermine/2dcef8c39a9f4c34bb7153a7f2f91571.png"></p>'},
+ {'id': 'fz-choice-1981616257706942465',
+  'category': '概率统计',
+  'difficulty': 4,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'stem': '一次数学竞赛有 4道选择题，每题有 A、B、C、D 四个选项，且只有一个正确答案。答对一题得 25分，答错或不答得 0分。',
+  'code': '小明在答题时完全随机选择一个选项（即每题答对的概率是 25%）。求他得 50分或50分以上的概率是多少?( )',
+  'options': ['约 26.17%', '约 31.25%', '约 50%', '约 75%'],
+  'answer': 0}]
+
+
+IMPORTED_FUZHOU_PROGRAMMING_TASKS = [{'id': 'fz-program-2060253670649495554',
+  'category': '模拟',
+  'difficulty': 5,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'title': '魔法对抗赛',
+  'description': '魔法学院的年度对抗赛上，**烈焰学院**与**冰霜学院**各派出 $4$ 名巫师进行魔法对决。\n'
+                 '\n'
+                 '裁判团共记录 $n$ 条有效施法信息，第 $i$ 条记录为 $(t_i, a_i, b_i)$，表示在第 $t_i$ 秒，编号为 $a_i$ 的巫师施展的魔法精准命中了编号为 $b_i$ '
+                 '的对手。\n'
+                 '\n'
+                 '若 $1 \\le a_i \\le 4$，则该巫师属于**烈焰学院**；若 $5 \\le a_i \\le 8$，则该巫师属于**冰霜学院**（$b_i$ '
+                 '同理）。每次魔法命中可为该巫师所属学院增加 $100$ 积分。巫师 $a_i$ 与巫师 $b_i$ 分属不同学院。\n'
+                 '\n'
+                 '定义一次**法术连击**：同一名巫师在 $10$ 秒之内连续施展魔法命中对方学院中的任意一名巫师。设第一次命中发生在第 $t_f$ 秒，则第二次命中需发生在第 $[t_f+1, t_f+10]$ '
+                 '秒内。每次法术连击可为该学院额外增加 $50$ 积分，且法术连击可以连续触发（即同一名巫师的相邻两次满足上述时间要求的攻击都算一次连击）。\n'
+                 '\n'
+                 '求两所学院的最终总积分。',
+  'input': '第一行为一个整数 $n$。\n\n接下来 $n$ 行，每行三个整数 $t_i, a_i, b_i$。保证所有 $t_i$ 互不相同，并且按升序输入。',
+  'output': '输出一行两个整数，分别表示烈焰学院与冰霜学院的总积分。',
+  'constraints': '对于全部数据，$1 \\le n \\le 100$，$0 \\le t_i \\le 10^3$。\n'
+                 '\n'
+                 '对于所有的i，确保$t_i<t_{i+1}$，$1 \\le a_i,b_i \\le 8$，巫师 $a_i$ 与巫师 $b_i$ 分属不同学院。',
+  'tests': [{'input': '3\n10 1 6\n20 1 7\n21 8 1\n', 'output': '250 100\n'},
+            {'input': '3\n10 2 5\n15 2 6\n25 2 5\n', 'output': '400 0\n'},
+            {'input': '3\n10 1 7\n11 1 6 \n12 1 7\n', 'output': '400 0\n'}]},
+ {'id': 'fz-program-2060254151874576386',
+  'category': '排序贪心',
+  'difficulty': 5,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'title': '图书上架',
+  'description': '图书馆新采购了 $N$ 本书，同时整理了 $N$ 个书架隔层。第 $i$ 本书的厚度为 $X_i$，第 $i$ 个隔层的宽度为 $Y_i$。只有当书的厚度 $X$ 不超过隔层宽度 $Y$ 时（即 '
+                 '$X \\le Y$），这本书才能被放入该隔层中。\n'
+                 '\n'
+                 '管理员想知道，是否能把所有书都摆上书架，且每个隔层恰好放一本书。',
+  'input': '第一行包含一个正整数 $T$（$1 \\le T \\le 5$），表示测试数据的组数。\n'
+           '\n'
+           '接下来对于每组测试数据：\n'
+           '\n'
+           '第一行包含一个正整数 $N$（$1 \\le N \\le 100$），表示书和隔层的数量。\n'
+           '\n'
+           '第二行包含 $N$ 个正整数 $X_i$（$1 \\le X_i \\le 10^9$），表示每本书的厚度。\n'
+           '\n'
+           '第三行包含 $N$ 个正整数 $Y_i$（$1 \\le Y_i \\le 10^9$），表示每个隔层的宽度。',
+  'output': '输出T行，每行对应每组测试数据的判断结果。\n\n如果可以将所有的书放入隔层中，输出 `YES`，否则输出 `NO`。',
+  'constraints': '对于 $60\\%$ 的测试用例，满足 $N \\le 9$。\n'
+                 '\n'
+                 '对于 $100\\%$ 的测试用例，$1 \\le T \\le 5$，$1 \\le N \\le 100$，$1 \\le X_i, Y_i \\le 10^9$。',
+  'tests': [{'input': '3\n3\n7 9 5\n6 13 10\n4\n5 3 3 5\n10 2 10 10\n4\n5 2 3 2\n3 8 3 3\n',
+             'output': 'YES\nNO\nYES\n'}]},
+ {'id': 'fz-program-2060254980601937921',
+  'category': '字符串',
+  'difficulty': 5,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'title': '魔法卷轴',
+  'description': '考古队在遗迹深处发现了一卷古老的魔法卷轴，上面刻有一串由小写字母组成的神秘符文。\n'
+                 '\n'
+                 '传说卷轴中的神秘符文隐藏着能够启动传送门的对称咒语——这种咒语正着读和反着读完全相同（例如 `aba` 或 `abcba`）。也就是说你需要从神秘符文中找出连续的子串将它作为咒语。\n'
+                 '\n'
+                 '现在给你一个字符串表示卷轴上的神秘符文，请找出其中能够识别的最长咒语的长度。',
+  'input': '输入共一行，包含一个由至少 1 个、至多 40 个英文小写字母组成的字符串，表示卷轴上的符文。',
+  'output': '输出一个整数，表示符文中能够识别的最长咒语的长度。',
+  'constraints': '对于全部数据，字符串长度满足 $1 \\le |S| \\le 40$，且仅由英文小写字母组成。',
+  'tests': [{'input': 'banana\n', 'output': '5\n'},
+            {'input': 'abracadabra\n', 'output': '3\n'},
+            {'input': 'abba\n', 'output': '4\n'}]},
+ {'id': 'fz-program-2060255418978009089',
+  'category': '字符串',
+  'difficulty': 5,
+  'source': '第二十一届福州市青少年机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'title': '矩阵字符匹配',
+  'description': '学校机房有一块大小为 $N$ 行 $N$ 列的字母显示屏，屏幕上每个位置都是一个小写英文字母。老师想做一个趣味测试：请你找出**连续的 $K$ 列**，满足以下条件：\n'
+                 '\n'
+                 '对于选中的这连续 $K$ 列，允许我们在**每一行内部**，随意打乱这 $K$ 个位置的字符顺序（每行只能在自己选中的几列里重排，不能跨行交换；也可以选择不打乱）。若存在这样一组连续 $K$ '
+                 '列，使得重排之后矩阵里**出现两行完全一模一样**，就判定为可行。\n'
+                 '\n'
+                 '请你判断是否存在满足条件的连续 $K$ 列，可行输出 `YES`，不可行输出 `NO`。',
+  'input': '第一行输入一个整数 T ，表示测试数据组数。\n\n对于每组测试数据：\n\n第一行输入两个整数 N,K 。\n\n接下来 N  行，每行输入 N  个字符，表示原来的字母矩阵。',
+  'output': '输出T行，每行对应每组测试数据的判断结果。如果有符合题意的方案，则输出 YES，否则输出 NO。',
+  'constraints': '对于所有数据，输入的矩阵保证由小写字母组成。\n'
+                 '\n'
+                 '对于 $70\\%$ 的数据，$N \\le 200$。\n'
+                 '\n'
+                 '对于 $100\\%$ 的数据，$2 \\le K \\le N \\le 500$，$1≤T≤5$。',
+  'tests': [{'input': '3\n4 2\nabcd\nacbd\nenaa\nmoze\n2 2\naa\naa\n3 2\nnec\nuuc\niti\n',
+             'output': 'YES\nYES\nNO\n'}]},
+ {'id': 'fz-program-1981616592085245954',
+  'category': '模拟',
+  'difficulty': 5,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'title': '猫咪分鱼干',
+  'description': '猫妈妈要给她的小猫咪们分发鱼干。已知有 $n$ '
+                 '只小猫咪，每只小猫从大写A开始连续编号（编号均不同），小猫咪们按照字母从小到大依次排成一队（A、B、C、D、E、F......），按照以下规则领取鱼干：\n'
+                 '\n'
+                 '1、队首的小猫咪每次领取1条鱼干\n'
+                 '\n'
+                 '2、领完鱼干的小猫咪会回到队尾继续排队\n'
+                 '\n'
+                 '3、这个过程重复进行，直到所有鱼干分发完毕\n'
+                 '\n'
+                 '现在给定小猫咪的数量 $n$ 和鱼干总数 $x$，请确定最后一个领到鱼干的小猫咪的编号。',
+  'input': '输入包含多组测试数据。\n'
+           '\n'
+           '第一行一个整数 $T$ ($1 ≤ T ≤ 5$)，表示测试数据组数。\n'
+           '\n'
+           '接下来T行，每行包含两个整数：\n'
+           '\n'
+           '第一个整数 $n$ ($1 ≤ n ≤ 26$)：表示小猫咪的数量\n'
+           '\n'
+           '第二个整数 $x$ ($1 ≤ x ≤ 10^6$)：表示鱼干的总数',
+  'output': '对于每组测试数据，输出一个大写字母，表示最后一个领到鱼干的小猫咪的编号。',
+  'constraints': '以题面约束为准。',
+  'tests': [{'input': '3\n3 5\n5 8\n1 10\n', 'output': 'B\nC\nA\n'}]},
+ {'id': 'fz-program-1981616870851272705',
+  'category': '枚举',
+  'difficulty': 5,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'title': '物资运输',
+  'description': '某救援队需要将一批紧急物资运送到灾区。现有两种运输工具：\n'
+                 '- A型运输车：每辆可运送 a 吨物资\n'
+                 '- B型运输车：每辆可运送 b 吨物资\n'
+                 '\n'
+                 '救援队需要运送总重恰好为 c 吨的物资，且要求所有运输车必须满载，以提高运输效率。\n'
+                 '\n'
+                 '请判断是否存在非负整数 x 和 y 满足以上条件，如果存在输出 Yes，否则输出 No。\n'
+                 '\n'
+                 'x 表示使用的A型运输车数量\n'
+                 '\n'
+                 'y 表示使用的B型运输车数量',
+  'input': '第一行包含整数 T，表示测试数据组数。\n\n接下来 T 行，每行包含三个正整数 a, b, c 用空格分隔。',
+  'output': '对于每组测试数据，输出一行结果：\n- 如果存在满足条件的 x 和 y ，输出 Yes。\n- 否则输出 No。',
+  'constraints': '$1 ≤ T ≤ 5$<br>\n$1 ≤ a, b ≤ 100$<br>\n$1 ≤ c ≤ 1000$<br>',
+  'tests': [{'input': '3\n4 6 15\n3 2 7\n6 11 6\n', 'output': 'No\nYes\nYes\n'}]},
+ {'id': 'fz-program-1981617147746639874',
+  'category': '枚举',
+  'difficulty': 5,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'title': '旅行规划',
+  'description': '某旅行社正在设计新的旅游线路套餐。他们收集了若干条热门旅游路线的价格，每条路线的价格各不相同。旅行社经理想知道：有多少条路线的价格，正好可以拆分成另外两条不同路线价格的和？这样可以帮助设计更灵活的旅游套餐组合。\n'
+                 '\n'
+                 '给定 $n$ 条旅游路线的价格列表，每条路线的价格各不相同。请统计有多少条路线的价格，恰好等于另外两条不同路线价格的和。',
+  'input': '输入共两行：\n'
+           '\n'
+           '第一行包含一个整数 $n$，表示旅游路线的数量（$3 ≤ n ≤ 5×10^3$）。\n'
+           '\n'
+           '第二行包含 $n$ 个不同的正整数(不超过$10^9$)，表示每条路线的价格(单位：元)，用空格隔开。',
+  'output': '输出一个整数，表示满足条件的路线数量。',
+  'constraints': '【样例解释】\n\n路线价格为100, 200, 300, 400\n\n300元可以分为100元+200元，400元可以分为100元+300元；因此有2条路线符合要求。',
+  'tests': [{'input': '4\n100 200 300 400\n', 'output': '2\n'}]},
+ {'id': 'fz-program-1981617328273678337',
+  'category': '搜索',
+  'difficulty': 5,
+  'source': '第二十届福州市机器人竞赛C++编程挑战赛小学组提高级（5-6年级）导入',
+  'title': '四面楚歌',
+  'description': '把战场看作一个 $m$ 行 $n$ '
+                 "列的规则平面，每个位置有我方或者敌方的小队，用'#'表示我方小队，'.'表示敌方小队。如果小队的上下左右任意方向有本方小队，认为他们是相连的。若干个相连的敌方小队，连成一片，如果周围全是我方小队，这片敌人就可以被歼灭。如果某一片敌方部队可以抵达战场边缘，那么这片敌人就可以全部安全逃跑。\n"
+                 '\n'
+                 '现在，输入一个战场的敌我地形图，请你计算有多少个敌方小队可以被我方歼灭。',
+  'input': "第一行，两个整数 $m$、$n$，表示战场 $m$ 行 $n$ 列。\n\n接着 $m$ 行，每行 $n$ 个字符，'#'表示我方小队，'.'表示敌方小队。",
+  'output': '一个整数，表示歼灭敌人小队的数量。',
+  'constraints': '$0 < m <= 100, 0 < n <= 100$',
+  'tests': [{'input': '5 6\n######\n#..###\n####.#\n#.#..#\n######\n', 'output': '6\n'},
+            {'input': '5 6\n#.####\n#.####\n####.#\n..#..#\n######\n', 'output': '3\n'}]}]
+
+
+CHOICE_QUESTIONS.extend(IMPORTED_FUZHOU_CHOICE_QUESTIONS)
+PROGRAMMING_TASKS.extend(IMPORTED_FUZHOU_PROGRAMMING_TASKS)
+
 for task in PROGRAMMING_TASKS:
-    task["public_tests"] = PUBLIC_PROGRAMMING_TESTS.get(task["id"], task["tests"][:1])
+    if task.get("source", "").endswith("导入"):
+        task["public_tests"] = task["tests"]
+    else:
+        task["public_tests"] = PUBLIC_PROGRAMMING_TESTS.get(task["id"], task["tests"][:1])
