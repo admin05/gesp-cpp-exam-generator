@@ -406,7 +406,7 @@ def admin_page(message: str = "") -> bytes:
               </select>
             </label>
             <label>考试时长（分钟）
-              <input name="duration" type="number" min="5" max="240" value="90">
+              <input name="duration" type="number" min="1" max="240" value="90">
             </label>
             <button class="button primary" type="submit">生成试卷</button>
             <p class="hint">当前题库：{len(CHOICE_QUESTIONS)} 道选择题，{len(PROGRAMMING_TASKS)} 道编程题。组卷会按知识点分类均衡抽取。</p>
@@ -698,7 +698,7 @@ def handle_create_exam(params: dict[str, list[str]]) -> bytes:
     choice_count = max(0, min(int(params.get("choice_count", ["10"])[0]), len(CHOICE_QUESTIONS)))
     program_count = max(0, min(int(params.get("program_count", ["4"])[0]), len(PROGRAMMING_TASKS)))
     program_min_difficulty = max(4, min(int(params.get("program_min_difficulty", ["5"])[0]), 5))
-    duration = max(5, min(int(params.get("duration", ["90"])[0]), 240))
+    duration = max(1, min(int(params.get("duration", ["90"])[0]), 240))
     exam_id = save_exam(build_exam(title, choice_count, program_count, duration, program_min_difficulty))
     return redirect(f"/admin/exams/{exam_id}")
 
