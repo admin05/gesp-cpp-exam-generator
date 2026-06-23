@@ -280,6 +280,15 @@ def answer_label(indices: list[int]) -> str:
     return ", ".join(LETTERS[i] for i in indices if 0 <= i < len(LETTERS))
 
 
+def is_multiple_choice(question: dict) -> bool:
+    return isinstance(question.get("answer"), list) or question.get("type") == "multiple_choice"
+
+
+def objective_counts(questions: list[dict]) -> tuple[int, int]:
+    multi_count = sum(1 for question in questions if is_multiple_choice(question))
+    return len(questions) - multi_count, multi_count
+
+
 def render_question_html(raw_html: str) -> str:
     if not raw_html:
         return ""
@@ -324,12 +333,13 @@ def public_home() -> bytes:
     cards = []
     for exam in exams:
         payload = json.loads(exam["payload"])
+        single_count, multi_count = objective_counts(payload["choice_questions"])
         cards.append(
             f"""
             <article class="exam-card">
               <div>
                 <h2>{h(exam["title"])}</h2>
-                <p>{len(payload["choice_questions"])} 道选择题 · {len(payload["programming_tasks"])} 道编程题 · {exam["duration_minutes"]} 分钟</p>
+                <p>{len(payload["choice_questions"])} 道客观题（单选 {single_count} / 多选 {multi_count}）· {len(payload["programming_tasks"])} 道编程题 · {exam["duration_minutes"]} 分钟</p>
               </div>
               <a class="button" href="/exam/{exam["id"]}">开始考试</a>
             </article>
@@ -362,12 +372,13 @@ def admin_page(message: str = "") -> bytes:
     rows = []
     for exam in exams:
         payload = json.loads(exam["payload"])
+        single_count, multi_count = objective_counts(payload["choice_questions"])
         rows.append(
             f"""
             <tr>
               <td>#{exam["id"]}</td>
               <td>{h(exam["title"])}</td>
-              <td>{len(payload["choice_questions"])} / {len(payload["programming_tasks"])}</td>
+              <td>{len(payload["choice_questions"])}（单 {single_count} / 多 {multi_count}） / {len(payload["programming_tasks"])}</td>
               <td>{h(exam["created_at"])}</td>
               <td class="actions">
                 <a href="/exam/{exam["id"]}">考试页</a>
@@ -392,7 +403,7 @@ def admin_page(message: str = "") -> bytes:
               <input name="title" value="GESP C++ 四级偏上 / 五级入门模拟测试" required>
             </label>
             <div class="two">
-              <label>选择题数量
+              <label>客观题数量
                 <input name="choice_count" type="number" min="0" max="{len(CHOICE_QUESTIONS)}" value="10">
               </label>
               <label>编程题数量
@@ -409,12 +420,12 @@ def admin_page(message: str = "") -> bytes:
               <input name="duration" type="number" min="1" max="240" value="90">
             </label>
             <button class="button primary" type="submit">生成试卷</button>
-            <p class="hint">当前题库：{len(CHOICE_QUESTIONS)} 道选择题，{len(PROGRAMMING_TASKS)} 道编程题。组卷会按知识点分类均衡抽取。</p>
+            <p class="hint">当前题库：{len(CHOICE_QUESTIONS)} 道客观题，{len(PROGRAMMING_TASKS)} 道编程题。客观题含单选和多选，组卷会按知识点分类均衡抽取。</p>
           </form>
           <section class="panel">
             <h2>最近试卷</h2>
             <table>
-              <thead><tr><th>ID</th><th>标题</th><th>选择/编程</th><th>创建时间</th><th>操作</th></tr></thead>
+              <thead><tr><th>ID</th><th>标题</th><th>客观/编程</th><th>创建时间</th><th>操作</th></tr></thead>
               <tbody>{''.join(rows) or '<tr><td colspan="5">暂无试卷</td></tr>'}</tbody>
             </table>
           </section>
@@ -428,13 +439,16 @@ def exam_page(exam_id: int) -> bytes:
     if not exam:
         return not_found()
     payload = json.loads(exam["payload"])
+    single_count, multi_count = objective_counts(payload["choice_questions"])
 
     nav = []
     choice_html = []
     for i, q in enumerate(payload["choice_questions"], 1):
         nav.append(f"<a href=\"#q{i}\" data-target=\"q{i}\">{i}</a>")
         opts = []
-        input_type = "checkbox" if isinstance(q["answer"], list) else "radio"
+        multi = is_multiple_choice(q)
+        input_type = "checkbox" if multi else "radio"
+        type_label = "多选题" if multi else "单选题"
         for oi, opt in enumerate(q["options"]):
             opts.append(
                 f"""
@@ -447,7 +461,7 @@ def exam_page(exam_id: int) -> bytes:
         choice_html.append(
             f"""
             <section class="question-card" id="q{i}">
-              <div class="q-head"><span>选择题 {i}</span><small>{h(q["category"])} · 难度 {q["difficulty"]}</small></div>
+              <div class="q-head"><span>{type_label} {i}</span><small>{h(q["category"])} · 难度 {q["difficulty"]}</small></div>
               <p>{h(q["stem"])}</p>
               {render_question_html(q.get("content_html", ""))}
               {render_code(q["code"])}
@@ -506,7 +520,7 @@ int main() {{
         <form class="exam-shell" method="post" action="/exam/{exam_id}/submit">
           <aside class="exam-side">
             <h2>{h(payload["title"])}</h2>
-            <p>{exam["duration_minutes"]} 分钟 · {len(payload["choice_questions"])} 选 · {len(payload["programming_tasks"])} 编</p>
+            <p>{exam["duration_minutes"]} 分钟 · 客观题 {len(payload["choice_questions"])}（单 {single_count} / 多 {multi_count}）· 编程 {len(payload["programming_tasks"])}</p>
             <div class="timer-box" data-duration-minutes="{exam["duration_minutes"]}">
               <span>剩余时间</span>
               <strong id="examTimer">--:--</strong>
@@ -520,7 +534,7 @@ int main() {{
           </aside>
           <section class="exam-main">
             <div class="principle">{h(payload["principle"])}</div>
-            <h1>一、选择题</h1>
+            <h1>一、客观题</h1>
             {''.join(choice_html)}
             <h1>二、编程题</h1>
             {''.join(program_html)}
@@ -613,7 +627,7 @@ def result_page(submission_id: int) -> bytes:
     for item in detail["choices"]:
         status = "正确" if item["ok"] else "错误"
         choice_rows.append(
-            f"<tr><td>{item['index']}</td><td>{h(item['selected'])}</td><td>{h(item['answer'])}</td><td>{status}</td></tr>"
+            f"<tr><td>{item['index']}</td><td>{h(item.get('type', '客观题'))}</td><td>{h(item['selected'])}</td><td>{h(item['answer'])}</td><td>{status}</td></tr>"
         )
 
     program_blocks = []
@@ -641,14 +655,14 @@ def result_page(submission_id: int) -> bytes:
         <section class="panel result-head">
           <h1>{h(row["student_name"])} 的提交结果</h1>
           <div class="score">
-            <b>选择题 {row["choice_score"]}/{row["choice_total"]}</b>
+            <b>客观题 {row["choice_score"]}/{row["choice_total"]}</b>
             <b>编程测试 {row["program_score"]}/{row["program_total"]}</b>
           </div>
           <p class="muted">提交时间：{h(row["created_at"])}</p>
         </section>
         <section class="panel">
-          <h2>选择题明细</h2>
-          <table><thead><tr><th>题号</th><th>作答</th><th>答案</th><th>结果</th></tr></thead><tbody>{''.join(choice_rows)}</tbody></table>
+          <h2>客观题明细</h2>
+          <table><thead><tr><th>题号</th><th>题型</th><th>作答</th><th>答案</th><th>结果</th></tr></thead><tbody>{''.join(choice_rows)}</tbody></table>
         </section>
         <section>{''.join(program_blocks)}</section>
         """,
@@ -685,7 +699,7 @@ def admin_exam_detail(exam_id: int) -> bytes:
             <a class="ghost" href="/exam/{exam_id}">考试页</a>
           </div>
           <table>
-            <thead><tr><th>ID</th><th>姓名</th><th>选择题</th><th>编程测试</th><th>时间</th><th>详情</th></tr></thead>
+            <thead><tr><th>ID</th><th>姓名</th><th>客观题</th><th>编程测试</th><th>时间</th><th>详情</th></tr></thead>
             <tbody>{''.join(body_rows) or '<tr><td colspan="6">暂无提交</td></tr>'}</tbody>
           </table>
         </section>
@@ -734,6 +748,7 @@ def handle_submit(exam_id: int, params: dict[str, list[str]]) -> bytes:
                 "selected": answer_label(selected),
                 "answer": answer_label(correct),
                 "ok": ok,
+                "type": "多选题" if is_multiple_choice(q) else "单选题",
             }
         )
 

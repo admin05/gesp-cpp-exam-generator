@@ -5,7 +5,7 @@ level 5 practice.
 
 The platform is designed for small-scale teaching and NAS deployment. Admins can
 create randomized papers from the bundled question bank, students can answer
-choice questions and submit C++17 programming solutions, and the system records
+single-choice and multiple-choice objective questions, submit C++17 programming solutions, and the system records
 scores in SQLite.
 
 ## Features
@@ -14,7 +14,7 @@ scores in SQLite.
   count, and exam duration.
 - Balanced random selection across C++ topic categories.
 - Online student exam page with timer and answer progress markers.
-- Choice-question scoring.
+- Objective-question scoring for single-choice and multiple-choice questions.
 - C++17 compile-and-run judging for programming tasks against bundled tests.
 - Submission result pages and admin score overview.
 - Docker Compose deployment with persistent SQLite data.
