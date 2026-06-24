@@ -39,6 +39,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/admin05/gesp-cpp-exam-generator:latest
-            ghcr.io/admin05/gesp-cpp-exam-generator:${{ github.sha }}
-
+            ghcr.io/admin05/cpp-exam-generator:latest
+            ghcr.io/admin05/cpp-exam-generator:${{ github.sha }}

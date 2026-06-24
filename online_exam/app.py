@@ -25,6 +25,46 @@ JUDGE_DIR = Path(os.environ.get("JUDGE_DIR", "/judge"))
 HOST = os.environ.get("HOST", "0.0.0.0")
 PORT = int(os.environ.get("PORT", "8000"))
 LETTERS = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+PLATFORM_NAME = "C++ 竞赛训练平台"
+
+QUESTION_BANK_PROFILES = {
+    "all": {
+        "label": "全部题库",
+        "competitions": None,
+        "item_types": {"choice", "programming"},
+        "principle": "通用 C++ 竞赛训练：混合抽取客观题和编程题，覆盖语法基础、程序阅读、模拟枚举、数论、排序二分、搜索、递推、STL 与综合应用。",
+    },
+    "literacy": {
+        "label": "素养大赛",
+        "competitions": {"general", "literacy"},
+        "item_types": {"choice", "programming"},
+        "principle": "素养大赛复赛 / 决赛 C++：依据《复赛 决赛考点大纲.pdf》的 C++ 范围，覆盖程序基础、数组、字符串、结构体、排序去重、函数递归、数学库、文件入门、数理知识、模拟、枚举、高精度、分治、贪心、递推、归并 / 快排、二分、前缀和、DFS/BFS、set/map/pair、栈/队列和链表基础。",
+    },
+    "csp_j_round1": {
+        "label": "CSP-J 第一轮",
+        "competitions": {"general", "csp", "csp_j", "csp_j_round1"},
+        "item_types": {"choice"},
+        "principle": "CSP-J 第一轮 C++：依据《NOI竞赛大纲_Syllabus_Edition_2025.pdf》中 CSP-J 要求，面向基础知识、C++ 语法、程序阅读、计算机与信息学常识、数学基础、数据结构与算法概念等客观题训练。",
+    },
+    "csp_j_round2": {
+        "label": "CSP-J 第二轮",
+        "competitions": {"general", "csp", "csp_j", "csp_j_round2"},
+        "item_types": {"programming"},
+        "principle": "CSP-J 第二轮 C++：依据《NOI竞赛大纲_Syllabus_Edition_2025.pdf》中 CSP-J 要求，面向 C++ 程序设计、模拟、枚举、排序、字符串、基础数据结构、搜索、递推等上机编程题训练。",
+    },
+    "gesp": {
+        "label": "GESP",
+        "competitions": {"general", "gesp"},
+        "item_types": {"choice", "programming"},
+        "principle": "GESP C++：围绕等级认证常见知识点进行训练，覆盖语法基础、数组字符串、函数、递推递归、基础数据结构和简单算法实现。",
+    },
+    "fuzhou": {
+        "label": "福州机器人赛",
+        "competitions": {"general", "fuzhou"},
+        "item_types": {"choice", "programming"},
+        "principle": "福州机器人 C++ 编程挑战赛：结合导入题与通用基础题，训练小学提高级常见的阅读理解、模拟、枚举、搜索和综合编程能力。",
+    },
+}
 
 
 def db() -> sqlite3.Connection:
@@ -111,6 +151,50 @@ def balanced_pick(items: list[dict], count: int, min_difficulty: int = 0) -> lis
     return selected
 
 
+def question_competition(item: dict) -> str:
+    explicit = item.get("competition")
+    if explicit:
+        return str(explicit)
+
+    source = str(item.get("source", ""))
+    item_id = str(item.get("id", ""))
+    haystack = f"{source} {item_id}".lower()
+    if any(keyword in source for keyword in ("信息素养", "丝路新程", "复赛", "总决赛")) or "fusai" in haystack:
+        return "literacy"
+    if any(keyword in source for keyword in ("CSP", "NOI", "HKOI", "CCF")):
+        return "csp"
+    if "GESP" in source or "gesp" in haystack:
+        return "gesp"
+    if "福州" in source or item_id.startswith("fz-"):
+        return "fuzhou"
+    return "general"
+
+
+def question_bank_profile(key: str) -> dict:
+    return QUESTION_BANK_PROFILES.get(key, QUESTION_BANK_PROFILES["all"])
+
+
+def filter_bank_items(items: list[dict], bank_key: str, item_type: str) -> list[dict]:
+    profile = question_bank_profile(bank_key)
+    if item_type not in profile["item_types"]:
+        return []
+    competitions = profile["competitions"]
+    if competitions is None:
+        return list(items)
+    return [item for item in items if question_competition(item) in competitions]
+
+
+def bank_counts(bank_key: str) -> tuple[int, int]:
+    return (
+        len(filter_bank_items(CHOICE_QUESTIONS, bank_key, "choice")),
+        len(filter_bank_items(PROGRAMMING_TASKS, bank_key, "programming")),
+    )
+
+
+def bank_label(bank_key: str) -> str:
+    return question_bank_profile(bank_key)["label"]
+
+
 def prepare_programming_task(task: dict) -> dict:
     prepared = dict(task)
     if not has_generator(task["id"]):
@@ -133,19 +217,25 @@ def build_exam(
     program_count: int,
     duration: int,
     program_min_difficulty: int = 5,
+    question_bank: str = "literacy",
 ) -> dict:
-    missing_generators = missing_generator_ids(PROGRAMMING_TASKS)
+    choice_pool = filter_bank_items(CHOICE_QUESTIONS, question_bank, "choice")
+    programming_pool = filter_bank_items(PROGRAMMING_TASKS, question_bank, "programming")
+    missing_generators = missing_generator_ids(programming_pool)
     if missing_generators:
         raise RuntimeError("以下编程题缺少测试生成器：" + ", ".join(missing_generators))
     programming_tasks = [
         prepare_programming_task(task)
-        for task in balanced_pick(PROGRAMMING_TASKS, program_count, program_min_difficulty)
+        for task in balanced_pick(programming_pool, program_count, program_min_difficulty)
     ]
+    profile = question_bank_profile(question_bank)
     return {
         "title": title,
         "duration_minutes": duration,
-        "principle": "算法应用主题赛复赛 / 总决赛 C++：程序基础、数理知识、模拟枚举、分治贪心、递推递归、排序二分、前缀和、DFS/BFS、STL 容器与栈队列等考点均衡覆盖。",
-        "choice_questions": balanced_pick(CHOICE_QUESTIONS, choice_count),
+        "question_bank": question_bank,
+        "question_bank_label": profile["label"],
+        "principle": profile["principle"],
+        "choice_questions": balanced_pick(choice_pool, choice_count),
         "programming_tasks": programming_tasks,
     }
 
@@ -250,7 +340,7 @@ def layout(title: str, body: str) -> bytes:
 </head>
 <body>
   <header class="topbar">
-    <a class="brand" href="/">GESP C++ 在线测试</a>
+    <a class="brand" href="/">{h(PLATFORM_NAME)}</a>
     <nav>
       <a href="/">考试入口</a>
       <a href="/admin">管理后台</a>
@@ -334,12 +424,13 @@ def public_home() -> bytes:
     for exam in exams:
         payload = json.loads(exam["payload"])
         single_count, multi_count = objective_counts(payload["choice_questions"])
+        label = payload.get("question_bank_label", "素养大赛")
         cards.append(
             f"""
             <article class="exam-card">
               <div>
                 <h2>{h(exam["title"])}</h2>
-                <p>{len(payload["choice_questions"])} 道客观题（单选 {single_count} / 多选 {multi_count}）· {len(payload["programming_tasks"])} 道编程题 · {exam["duration_minutes"]} 分钟</p>
+                <p>{h(label)} · {len(payload["choice_questions"])} 道客观题（单选 {single_count} / 多选 {multi_count}）· {len(payload["programming_tasks"])} 道编程题 · {exam["duration_minutes"]} 分钟</p>
               </div>
               <a class="button" href="/exam/{exam["id"]}">开始考试</a>
             </article>
@@ -351,8 +442,8 @@ def public_home() -> bytes:
         "考试入口",
         f"""
         <section class="hero compact">
-          <h1>GESP C++ 本地在线测试平台</h1>
-          <p>按管理员设置自动组卷，考生在线作答，编程题提交 C++ 代码后按样例即时测评。</p>
+          <h1>{h(PLATFORM_NAME)}</h1>
+          <p>按题库来源和竞赛方向自动组卷，考生在线作答，编程题提交 C++17 代码后即时测评。</p>
         </section>
         <section class="panel">
           <div class="section-title">
@@ -373,11 +464,13 @@ def admin_page(message: str = "") -> bytes:
     for exam in exams:
         payload = json.loads(exam["payload"])
         single_count, multi_count = objective_counts(payload["choice_questions"])
+        label = payload.get("question_bank_label", "素养大赛")
         rows.append(
             f"""
             <tr>
               <td>#{exam["id"]}</td>
               <td>{h(exam["title"])}</td>
+              <td>{h(label)}</td>
               <td>{len(payload["choice_questions"])}（单 {single_count} / 多 {multi_count}） / {len(payload["programming_tasks"])}</td>
               <td>{h(exam["created_at"])}</td>
               <td class="actions">
@@ -392,6 +485,15 @@ def admin_page(message: str = "") -> bytes:
         )
 
     notice = f"<div class=\"notice\">{h(message)}</div>" if message else ""
+    bank_options = []
+    bank_summary = []
+    for key, profile in QUESTION_BANK_PROFILES.items():
+        choice_total, program_total = bank_counts(key)
+        selected = " selected" if key == "literacy" else ""
+        bank_options.append(
+            f"<option value=\"{h(key)}\"{selected}>{h(profile['label'])}（客观 {choice_total} / 编程 {program_total}）</option>"
+        )
+        bank_summary.append(f"{h(profile['label'])}: 客观 {choice_total} / 编程 {program_total}")
     return layout(
         "管理后台",
         f"""
@@ -400,7 +502,12 @@ def admin_page(message: str = "") -> bytes:
             <h1>创建试卷</h1>
             {notice}
             <label>试卷标题
-              <input name="title" value="GESP C++ 四级偏上 / 五级入门模拟测试" required>
+              <input name="title" value="素养大赛 C++ 模拟训练" required>
+            </label>
+            <label>题库范围
+              <select name="question_bank">
+                {''.join(bank_options)}
+              </select>
             </label>
             <div class="two">
               <label>客观题数量
@@ -420,13 +527,13 @@ def admin_page(message: str = "") -> bytes:
               <input name="duration" type="number" min="1" max="240" value="90">
             </label>
             <button class="button primary" type="submit">生成试卷</button>
-            <p class="hint">当前题库：{len(CHOICE_QUESTIONS)} 道客观题，{len(PROGRAMMING_TASKS)} 道编程题。客观题含单选和多选，组卷会按知识点分类均衡抽取。</p>
+            <p class="hint">当前题库：{'; '.join(bank_summary)}。CSP-J 已按第一轮客观题、第二轮编程题拆分；后续导入 CSP 真题时标记 competition="csp_j_round1" 或 competition="csp_j_round2" 即可进入对应题库。</p>
           </form>
           <section class="panel">
             <h2>最近试卷</h2>
             <table>
-              <thead><tr><th>ID</th><th>标题</th><th>客观/编程</th><th>创建时间</th><th>操作</th></tr></thead>
-              <tbody>{''.join(rows) or '<tr><td colspan="5">暂无试卷</td></tr>'}</tbody>
+              <thead><tr><th>ID</th><th>标题</th><th>题库</th><th>客观/编程</th><th>创建时间</th><th>操作</th></tr></thead>
+              <tbody>{''.join(rows) or '<tr><td colspan="6">暂无试卷</td></tr>'}</tbody>
             </table>
           </section>
         </section>
@@ -440,6 +547,7 @@ def exam_page(exam_id: int) -> bytes:
         return not_found()
     payload = json.loads(exam["payload"])
     single_count, multi_count = objective_counts(payload["choice_questions"])
+    label = payload.get("question_bank_label", "素养大赛")
 
     nav = []
     choice_html = []
@@ -520,7 +628,7 @@ int main() {{
         <form class="exam-shell" method="post" action="/exam/{exam_id}/submit">
           <aside class="exam-side">
             <h2>{h(payload["title"])}</h2>
-            <p>{exam["duration_minutes"]} 分钟 · 客观题 {len(payload["choice_questions"])}（单 {single_count} / 多 {multi_count}）· 编程 {len(payload["programming_tasks"])}</p>
+            <p>{h(label)} · {exam["duration_minutes"]} 分钟 · 客观题 {len(payload["choice_questions"])}（单 {single_count} / 多 {multi_count}）· 编程 {len(payload["programming_tasks"])}</p>
             <div class="timer-box" data-duration-minutes="{exam["duration_minutes"]}">
               <span>剩余时间</span>
               <strong id="examTimer">--:--</strong>
@@ -708,12 +816,14 @@ def admin_exam_detail(exam_id: int) -> bytes:
 
 
 def handle_create_exam(params: dict[str, list[str]]) -> bytes:
-    title = params.get("title", ["GESP C++ 模拟测试"])[0].strip()[:80] or "GESP C++ 模拟测试"
-    choice_count = max(0, min(int(params.get("choice_count", ["10"])[0]), len(CHOICE_QUESTIONS)))
-    program_count = max(0, min(int(params.get("program_count", ["4"])[0]), len(PROGRAMMING_TASKS)))
+    title = params.get("title", ["C++ 竞赛模拟训练"])[0].strip()[:80] or "C++ 竞赛模拟训练"
+    question_bank = params.get("question_bank", ["literacy"])[0]
+    choice_total, program_total = bank_counts(question_bank)
+    choice_count = max(0, min(int(params.get("choice_count", ["10"])[0]), choice_total))
+    program_count = max(0, min(int(params.get("program_count", ["4"])[0]), program_total))
     program_min_difficulty = max(4, min(int(params.get("program_min_difficulty", ["5"])[0]), 5))
     duration = max(1, min(int(params.get("duration", ["90"])[0]), 240))
-    exam_id = save_exam(build_exam(title, choice_count, program_count, duration, program_min_difficulty))
+    exam_id = save_exam(build_exam(title, choice_count, program_count, duration, program_min_difficulty, question_bank))
     return redirect(f"/admin/exams/{exam_id}")
 
 
@@ -794,7 +904,7 @@ def not_found() -> bytes:
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "GespExam/0.1"
+    server_version = "CppContestExam/0.2"
 
     def send_html(self, data: bytes, status: int = 200) -> None:
         if data.startswith(b"REDIRECT:"):

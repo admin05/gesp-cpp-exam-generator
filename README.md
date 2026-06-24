@@ -1,17 +1,22 @@
-# GESP C++ Online Exam Platform
+# C++ Contest Exam Generator
 
-A lightweight local online exam platform for C++ practice aligned with the
-Algorithm Application Theme Contest semi-final and final-round syllabus.
+A lightweight local training and exam platform for C++ contests. It can build
+random papers from multiple question-bank profiles, including the existing
+Algorithm Application / literacy contest bank and separate CSP-J first-round and
+second-round profiles.
 
 The platform is designed for small-scale teaching and NAS deployment. Admins can
-create randomized papers from the bundled question bank, students can answer
+create randomized papers by question-bank scope, students can answer
 single-choice and multiple-choice objective questions, submit C++17 programming
 solutions, and the system records scores in SQLite.
 
 ## Features
 
-- Admin paper creation with configurable objective-question count,
-  programming-task count, minimum programming difficulty, and exam duration.
+- Admin paper creation with configurable question-bank scope, objective-question
+  count, programming-task count, minimum programming difficulty, and exam
+  duration.
+- Built-in question-bank profiles: all questions, literacy contest, CSP-J first
+  round, CSP-J second round, GESP, and Fuzhou robot contest.
 - Objective-question bank covering C++ fundamentals, mathematical reasoning,
   simulation, enumeration, divide-and-conquer, greedy methods, recurrence,
   recursion, sorting, binary search, prefix sums, DFS/BFS, STL containers,
@@ -24,9 +29,28 @@ solutions, and the system records scores in SQLite.
 - Submission result pages and admin score overview.
 - Docker Compose deployment with persistent SQLite data.
 
+## Question Bank Layout
+
+- `online_exam/`: application code, static styles, and structured question bank.
+- `scripts/`: local extraction/import helper scripts for source materials.
+- `CSP/` and `素养大赛/`: local raw source-material folders. These are ignored
+  by Git by default because they contain large PDFs, PPTs, DOCX files, archives,
+  and other non-code assets.
+
+The literacy contest profile follows the C++ section of
+`素养大赛/复赛 决赛考点大纲.pdf`. CSP-J profiles follow the CSP-J C++ requirements
+in `CSP/学习资料/NOI竞赛大纲_Syllabus_Edition_2025.pdf`: first round is modeled as
+an objective-question bank, and second round is modeled as a programming-task
+bank.
+
+To add a new competition source, normalize questions into the same dictionaries
+used by `online_exam/question_bank.py`. Set `competition` to a short key such as
+`"literacy"`, `"csp_j_round1"`, or `"csp_j_round2"` so the admin page can include
+the question in the matching profile.
+
 ## Project Structure
 
-- `online_exam/`: application code, static styles, and bundled question bank.
+- `online_exam/`: application code, static styles, and bundled structured bank.
 - `scripts/`: local extraction/import helper scripts for source materials.
 - `Dockerfile`: container image for the platform and C++ judge runtime.
 - `docker-compose.yml`: local build deployment.
@@ -61,8 +85,7 @@ Then open:
 - Admin panel: `http://NAS-IP:8088/admin`
 
 The platform stores data in `data/exam.db` inside the named volume
-`gesp_exam_data`, so NAS deployments do not need host-directory permission
-fixes.
+`cpp_exam_data`, so NAS deployments do not need host-directory permission fixes.
 
 ## Runtime Notes
 
@@ -77,9 +100,14 @@ isolated sandbox service or use a dedicated OJ system.
 
 ---
 
-# GESP C++ 在线测试平台
+# C++ 竞赛训练平台
 
-这是一个轻量级本地在线考试平台，面向算法应用主题赛复赛、总决赛 C++ 考点训练。
+这是一个轻量级本地在线考试平台，面向 C++ 竞赛训练，可按不同题库范围生成试卷。
+当前已支持“全部题库”“素养大赛”“CSP-J 第一轮”“CSP-J 第二轮”“GESP”“福州
+机器人赛”等题库范围。素养大赛题库范围以 `素养大赛/复赛 决赛考点大纲.pdf`
+的 C++ 要求为准；CSP-J 题库范围以
+`CSP/学习资料/NOI竞赛大纲_Syllabus_Edition_2025.pdf` 中 CSP-J 的 C++ 要求为准，
+并拆分为第一轮客观题题库和第二轮编程题题库。
 
 平台适合小规模教学和 NAS 部署。管理员可以从内置题库随机组卷，考生可以在线完成
 单选题、多选题等客观题，并提交 C++17 编程题代码；系统会将成绩和提交记录保存到
@@ -87,10 +115,12 @@ SQLite 数据库。
 
 ## 功能
 
-- 管理员创建试卷：可设置客观题数量、编程题数量、编程题最低难度和考试时长。
+- 管理员创建试卷：可设置题库范围、客观题数量、编程题数量、编程题最低难度和考试时长。
+- 内置多题库范围：全部题库、素养大赛、CSP-J 第一轮、CSP-J 第二轮、GESP、
+  福州机器人赛。
 - 客观题题库覆盖 C++ 程序基础、数理知识、模拟、枚举、分治、贪心、递推、递归、
   排序、二分、前缀和、DFS/BFS、STL 容器、栈、队列、链表基础、高精度、位运算、
-  进制转换等复赛/总决赛考点。
+  进制转换等考点。
 - 支持单选题和多选题展示、判分与结果回看。
 - 按 C++ 知识点分类均衡随机抽题。
 - 考生在线考试页包含倒计时和答题进度标记。
@@ -98,14 +128,16 @@ SQLite 数据库。
 - 提交结果页和管理后台成绩总览。
 - 支持 Docker Compose 部署，并使用 SQLite 持久化保存数据。
 
-## 项目结构
+## 题库与资料
 
-- `online_exam/`：应用代码、静态样式和内置题库。
+- `online_exam/`：应用代码、静态样式和结构化题库。
 - `scripts/`：本地资料提取和导入辅助脚本。
-- `Dockerfile`：平台与 C++ 判题运行时镜像。
-- `docker-compose.yml`：本地构建部署。
-- `docker-compose.github.yml`：直接从 GitHub 仓库构建。
-- `docker-compose.ghcr.yml`：运行预构建 GHCR 镜像。
+- `CSP/`、`素养大赛/`：本地原始资料目录，默认被 Git 忽略，避免把大体积 PDF、
+  PPT、DOCX、压缩包等资料误提交到仓库。
+
+新增竞赛题库时，优先把题目规范化为 `online_exam/question_bank.py` 中相同的数据
+结构，并设置 `competition` 字段，例如 `"literacy"`、`"csp_j_round1"`、
+`"csp_j_round2"`、`"gesp"`。
 
 ## Docker Compose 部署
 
@@ -133,7 +165,7 @@ docker compose -f docker-compose.ghcr.yml up -d
 - 考试入口：`http://NAS-IP:8088/`
 - 管理后台：`http://NAS-IP:8088/admin`
 
-平台会将数据保存到 Docker 命名卷 `gesp_exam_data` 内的 `/data/exam.db`，NAS 重启或
+平台会将数据保存到 Docker 命名卷 `cpp_exam_data` 内的 `/data/exam.db`，NAS 重启或
 容器重建后不会丢失。
 
 ## 运行说明
