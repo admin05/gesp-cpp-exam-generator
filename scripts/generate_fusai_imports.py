@@ -15,6 +15,22 @@ from zipfile import ZipFile
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "online_exam" / "imported_fusai_questions.py"
 WORD_NS = "{http://schemas.openxmlformats.org/wordprocessingml/2006/main}"
+EXCLUDED_TASK_IDS = {
+    # The PDF parser merges this decision-round hospital-queue task with a
+    # later union-find style problem, so the resulting task is not reliable.
+    "fusai-program-d1271eaba44af1",
+}
+EXCLUDED_TASK_PATTERNS = (
+    r"并查集",
+    r"族群",
+    r"Dijkstra",
+    r"拓扑",
+    r"背包",
+    r"最长上升",
+    r"编辑距离",
+    r"KMP",
+    r"双指针",
+)
 
 
 def extract_docx_text(path: Path) -> str:
@@ -82,7 +98,7 @@ def collect_documents() -> list[Path]:
                 continue
             rel = path.relative_to(ROOT).as_posix()
             rel_lower = rel.lower()
-            if "复赛" not in rel:
+            if not any(keyword in rel for keyword in ("复赛", "决赛", "国赛", "总决赛")):
                 continue
             if "复赛通知" in rel or "规则" in rel or "判题标准" in rel:
                 continue
@@ -356,24 +372,34 @@ def parse_programming_tasks(path: Path, text: str) -> list[dict]:
         description = "\n".join(description_lines).strip() or "\n".join(raw[1:]).strip()
 
         task_id = "fusai-program-" + hashlib.sha1(f"{rel}\n{title}".encode("utf-8")).hexdigest()[:14]
-        tasks.append(
-            {
-                "id": task_id,
-                "category": infer_category("\n".join(raw)),
-                "difficulty": infer_difficulty(rel),
-                "source": rel,
-                "title": title[:80],
-                "description": description[:2500],
-                "input": input_text[:1000],
-                "output": output_text[:1000],
-                "constraints": constraints[:1000],
-                "tests": tests,
-                "public_tests": tests[:1],
-                "hidden_tests": tests,
-                "allow_static_tests": True,
-            }
-        )
+        task = {
+            "id": task_id,
+            "category": infer_category("\n".join(raw)),
+            "difficulty": infer_difficulty(rel),
+            "source": rel,
+            "title": title[:80],
+            "description": description[:2500],
+            "input": input_text[:1000],
+            "output": output_text[:1000],
+            "constraints": constraints[:1000],
+            "tests": tests,
+            "public_tests": tests[:1],
+            "hidden_tests": tests,
+            "allow_static_tests": True,
+        }
+        if should_keep_task(task):
+            tasks.append(task)
     return tasks
+
+
+def should_keep_task(task: dict) -> bool:
+    if task["id"] in EXCLUDED_TASK_IDS:
+        return False
+    text = "\n".join(
+        str(task.get(key, ""))
+        for key in ("category", "title", "description", "input", "output", "constraints")
+    )
+    return not any(re.search(pattern, text, re.I) for pattern in EXCLUDED_TASK_PATTERNS)
 
 
 def infer_difficulty(source: str) -> int:

@@ -2952,6 +2952,420 @@ FINAL_ROUND_CPP_MULTI_CHOICE_QUESTIONS = [
 ]
 
 
+FINAL_ROUND_CPP_SINGLE_CHOICE_QUESTIONS = [
+    {
+        "id": "c-2026-silk-newcity6-find-001",
+        "category": "字符串",
+        "difficulty": 4,
+        "source": "2026年资料/复赛卷六初中/C++/C++.docx",
+        "stem": "智慧港口货物管理系统需在货物全称字符串中检索指定关键词，要求返回关键词第一次出现的下标位置，查找失败时返回 -1。在 C++ 中，string 类最符合该功能的函数是？",
+        "code": "",
+        "options": ["substr()", "find()", "replace()", "erase()"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-newcity6-map-lookup-001",
+        "category": "STL 基础",
+        "difficulty": 5,
+        "source": "2026年资料/复赛卷六初中/C++/C++.docx",
+        "stem": "使用 map<string, string> country_map 存储国家代码到国家全称，访问不存在的键时不能崩溃，且不存在时需返回默认值“未知国家”。以下写法最安全、最符合需求的是？",
+        "code": "",
+        "options": [
+            "string name = country_map[key];",
+            "string name = country_map.at(key);",
+            "if (country_map.count(key)) return country_map[key]; else return \"未知国家\";",
+            "string name = *(country_map.find(key));",
+        ],
+        "answer": 2,
+    },
+    {
+        "id": "c-2026-silk-newcity6-short-circuit-001",
+        "category": "逻辑表达式",
+        "difficulty": 4,
+        "source": "2026年资料/复赛卷六初中/C++/C++.docx",
+        "stem": "丝路新城港口自动化控制系统中，运行以下程序，控制台最终输出结果是？",
+        "code": "int check_cargo(int y) {\n    y -= 5;\n    cout << \"check\";\n    return 0;\n}\nint high_prio = 10, low_prio = 5;\nif (high_prio > low_prio || check_cargo(low_prio))\n    cout << low_prio;",
+        "options": ["check5", "5", "check", "无任何输出"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-newcity6-while-001",
+        "category": "循环",
+        "difficulty": 4,
+        "source": "2026年资料/复赛卷六初中/C++/C++.docx",
+        "stem": "丝路新城港口在统计奇数编号货物时运行以下程序，控制台最终输出结果是？",
+        "code": "int cargo_id = 1, count = 0;\nwhile (cargo_id * cargo_id < 30) {\n    count += 1;\n    cargo_id += 2;\n}\ncout << count;",
+        "options": ["3", "4", "5", "6"],
+        "answer": 0,
+    },
+    {
+        "id": "c-2026-silk-newcity6-selection-sort-001",
+        "category": "排序",
+        "difficulty": 3,
+        "source": "2026年资料/复赛卷六初中/C++/C++.docx",
+        "stem": "在常见内部排序算法中，每次从未排序部分找到最小元素，将其与已排序部分的下一个位置交换，这种排序算法的核心思想是？",
+        "code": "",
+        "options": ["冒泡排序", "选择排序", "插入排序", "快速排序"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-junior7-string-001",
+        "category": "字符串",
+        "difficulty": 5,
+        "source": "2026年资料/复赛卷七初中组/C++/C++.docx",
+        "stem": "阅读以下字符串加密程序，选择运行后输出的正确密文结果。",
+        "code": "string route = \"CHANGZHENG2026\";\nstring a = route.substr(3, 4);\nreverse(a.begin(), a.end());\nstring b = route.substr(route.size() - 5, 4);\ncout << a + b << endl;",
+        "options": ["NAHZ0262", "GNAH202", "ZHNG0262", "HZGNG202"],
+        "answer": 3,
+    },
+    {
+        "id": "c-2026-silk-junior7-loop-001",
+        "category": "循环",
+        "difficulty": 4,
+        "source": "2026年资料/复赛卷七初中组/C++/C++.docx",
+        "stem": "阅读以下统计程序，选择程序运行后的正确输出结果。",
+        "code": "int cnt = 0;\nfor (int i = 1; i < 26; i += 4) {\n    if (i % 6 == 0 && i > 12) cnt++;\n}\ncout << cnt;",
+        "options": ["0", "1", "2", "3"],
+        "answer": 0,
+    },
+    {
+        "id": "c-2026-silk-junior7-vector-001",
+        "category": "STL 基础",
+        "difficulty": 5,
+        "source": "2026年资料/复赛卷七初中组/C++/C++.docx",
+        "stem": "阅读以下物资编号管理程序，最终输出指定物资编号 11 在列表中的下标是？",
+        "code": "vector<int> goods = {7, 4, 11, 4, 16, 21, 25};\nauto it = find(goods.begin(), goods.end(), 4);\nif (it != goods.end()) goods.erase(it);\ngoods.insert(goods.begin() + 3, 14);\nreverse(goods.begin(), goods.end());\ncout << find(goods.begin(), goods.end(), 11) - goods.begin();",
+        "options": ["3", "4", "5", "6"],
+        "answer": 2,
+    },
+    {
+        "id": "c-2026-silk-junior7-recursion-001",
+        "category": "递归递推",
+        "difficulty": 5,
+        "source": "2026年资料/复赛卷七初中组/C++/C++.docx",
+        "stem": "阅读以下递归函数，选择程序运行输出结果。",
+        "code": "int miles(int x) {\n    if (x <= 1) return 1;\n    if (x == 2) return 2;\n    return miles(x - 1) + 3 * miles(x - 2);\n}\ncout << miles(7);",
+        "options": ["109", "137", "229", "269"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-junior7-set-001",
+        "category": "STL 基础",
+        "difficulty": 5,
+        "source": "2026年资料/复赛卷七初中组/C++/C++.docx",
+        "stem": "两支队伍战士编号如下，程序统计仅隶属于单独一支队伍的编号总数，输出结果是？",
+        "code": "set<int> arm1 = {2, 5, 8, 11, 14, 17};\nset<int> arm2 = {5, 11, 17, 20, 23, 26};\nint cnt = 0;\nfor (int x : arm1) if (!arm2.count(x)) cnt++;\nfor (int x : arm2) if (!arm1.count(x)) cnt++;\ncout << cnt;",
+        "options": ["4", "5", "6", "7"],
+        "answer": 2,
+    },
+    {
+        "id": "c-2026-silk-junior2-var-001",
+        "category": "变量类型",
+        "difficulty": 3,
+        "source": "2026年资料/丝路新程2初中复赛/C++/C++.docx",
+        "stem": "下列变量定义与郑和船队数据完全匹配且语法正确的是？",
+        "code": "",
+        "options": [
+            "int id=1; double speed=\"28.5\"; string port=\"Liujiagang\"; bool sail=true;",
+            "int id=1; double speed=28.5; string port=\"Liujiagang\"; bool sail=true;",
+            "int id=\"1\"; float speed=28.5; char port[]=Liujiagang; bool sail=1;",
+            "int id=1; float speed=28.5; string port='Liujiagang'; bool sail=FALSE;",
+        ],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-junior2-logic-001",
+        "category": "逻辑表达式",
+        "difficulty": 4,
+        "source": "2026年资料/丝路新程2初中复赛/C++/C++.docx",
+        "stem": "通关条件为：(文牒 || 特许) && 已缴税 && 无违禁 && 非疫区，正确表达式是？",
+        "code": "",
+        "options": [
+            "(pass | special) & tax & !forbid & !Epidemic",
+            "pass || special && tax && !forbid && !Epidemic",
+            "(pass || special) && tax && !forbid && !Epidemic",
+            "(pass + special) tax !forbid * !Epidemic",
+        ],
+        "answer": 2,
+    },
+    {
+        "id": "c-2026-silk-junior2-ternary-001",
+        "category": "分支",
+        "difficulty": 4,
+        "source": "2026年资料/丝路新程2初中复赛/C++/C++.docx",
+        "stem": "运行下列程序，输出是？",
+        "code": "int w = 750;\nstring r = w >= 800 ? \"Super\" : w >= 600 ? \"First\" : w >= 400 ? \"Second\" : \"Third\";\ncout << r;",
+        "options": ["Super", "First", "Second", "Third"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-junior2-2d-array-001",
+        "category": "二维数组",
+        "difficulty": 4,
+        "source": "2026年资料/丝路新程2初中复赛/C++/C++.docx",
+        "stem": "运行下列程序，输出的是？",
+        "code": "int m[3][3] = {1,0,1,0,1,0,1,0,1};\nint c = 0;\nfor (int i = 0; i < 3; i++)\n    for (int j = 0; j < 3; j++)\n        if (i == j && m[i][j] == 1) c++;\ncout << c;",
+        "options": ["1", "2", "3", "4"],
+        "answer": 2,
+    },
+    {
+        "id": "c-2026-silk-junior2-loop-bound-001",
+        "category": "循环",
+        "difficulty": 3,
+        "source": "2026年资料/丝路新程2初中复赛/C++/C++.docx",
+        "stem": "遍历 0 到 31 共 32 个西域驿站，写法正确且无越界的是？",
+        "code": "",
+        "options": ["for (int i = 0; i < 32; i++)", "for (int i = 1; i <= 32; i++)", "for (int i = 0; i <= 32; i++)", "for (int i = 1; i < 32; i++)"],
+        "answer": 0,
+    },
+    {
+        "id": "c-2026-silk-junior3-dfs-single-001",
+        "category": "递归递推",
+        "difficulty": 5,
+        "source": "2026年资料/丝路新程3复赛初中组/C++/C++.docx",
+        "stem": "古代丝路商队路线规划按递归规则计算，程序输出结果为？",
+        "code": "int dfs(int x) {\n    if (x == 0) return 1;\n    if (x == 1) return 3;\n    return dfs(x - 1) + 3 * dfs(x - 2);\n}\ncout << dfs(5);",
+        "options": ["43", "57", "66", "72"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-junior3-stack-single-001",
+        "category": "栈",
+        "difficulty": 4,
+        "source": "2026年资料/丝路新程3复赛初中组/C++/C++.docx",
+        "stem": "执行操作序列 push(7), push(2), pop(), push(5), push(9), pop(), push(1), pop()，最终位于栈顶的编号是？",
+        "code": "",
+        "options": ["1", "5", "7", "9"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-junior3-recursive-sum-001",
+        "category": "递归递推",
+        "difficulty": 5,
+        "source": "2026年资料/丝路新程3复赛初中组/C++/C++.docx",
+        "stem": "阅读以下递归程序，执行后总价值 res 为？",
+        "code": "int res = 0;\nvoid test(int n) {\n    if (n == 0) return;\n    res += n * 2;\n    test(n - 1);\n    res += n;\n}\ntest(4);\ncout << res;",
+        "options": ["26", "30", "34", "38"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-junior3-recursive-f-001",
+        "category": "递归递推",
+        "difficulty": 5,
+        "source": "2026年资料/丝路新程3复赛初中组/C++/C++.docx",
+        "stem": "某朝代贸易指数按递归计算，f(6) 的结果是？",
+        "code": "int f(int n) {\n    if (n <= 2) return n + 2;\n    return f(n - 1) + 2 * f(n - 2);\n}",
+        "options": ["64", "70", "76", "82"],
+        "answer": 2,
+    },
+    {
+        "id": "c-2026-silk-junior3-queue-001",
+        "category": "队列",
+        "difficulty": 4,
+        "source": "2026年资料/丝路新程3复赛初中组/C++/C++.docx",
+        "stem": "初始队列为 {3,6,9}，执行：出队→入队 1,2 → 出队→入队 4 → 出队→入队 7,8，最终队列中剩余元素为？",
+        "code": "",
+        "options": ["9,4,7,8", "1,2,4,7,8", "4,7,8,9", "2,4,7,8"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-junior1-factorial-001",
+        "category": "递归递推",
+        "difficulty": 4,
+        "source": "2026年资料/丝路新程1初中复赛/C++/C++.docx",
+        "stem": "以下函数模拟“传递革命火种”的过程，调用 passTorch(5) 的返回值是多少？",
+        "code": "int passTorch(int n) {\n    if (n <= 1) return 1;\n    return n * passTorch(n - 1);\n}",
+        "options": ["120", "24", "5", "15"],
+        "answer": 0,
+    },
+    {
+        "id": "c-2026-silk-junior1-queue-front-001",
+        "category": "队列",
+        "difficulty": 4,
+        "source": "2026年资料/丝路新程1初中复赛/C++/C++.docx",
+        "stem": "以下程序段模拟队列在“传送情报”中的应用，若输入为 5 和 1 2 3 4 5，则输出的第二行是什么？",
+        "code": "queue<int> q;\nint n, x;\ncin >> n;\nfor (int i = 0; i < n; i++) {\n    cin >> x;\n    q.push(x);\n}\ncout << q.front() << endl;\nq.pop();\ncout << q.front() << endl;",
+        "options": ["1", "2", "3", "4"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-junior1-divide-count-001",
+        "category": "分治",
+        "difficulty": 5,
+        "source": "2026年资料/丝路新程1初中复赛/C++/C++.docx",
+        "stem": "以下代码用分治策略统计“根据地”数量，若 areas = {1, 0, 1, 1, 0}，调用 countBase(areas, 0, 4) 的返回值是？",
+        "code": "int countBase(vector<int>& arr, int l, int r) {\n    if (l == r) return arr[l] == 1;\n    int mid = (l + r) / 2;\n    return countBase(arr, l, mid) + countBase(arr, mid + 1, r);\n}",
+        "options": ["1", "2", "3", "4"],
+        "answer": 2,
+    },
+    {
+        "id": "c-2026-silk-junior1-quicksort-partition-001",
+        "category": "排序",
+        "difficulty": 5,
+        "source": "2026年资料/丝路新程1初中复赛/C++/C++.docx",
+        "stem": "以下快排分区函数，若数组 arr = {5, 3, 8, 1, 2}，以第一个元素 5 为基准调用 partition(arr, 0, 4) 后，数组可能变为？",
+        "code": "int partition(vector<int>& arr, int low, int high) {\n    int pivot = arr[low];\n    int i = low, j = high;\n    while (i < j) {\n        while (i < j && arr[j] >= pivot) j--;\n        arr[i] = arr[j];\n        while (i < j && arr[i] <= pivot) i++;\n        arr[j] = arr[i];\n    }\n    arr[i] = pivot;\n    return i;\n}",
+        "options": ["{2, 3, 1, 5, 8}", "{1, 2, 3, 5, 8}", "{2, 3, 1, 8, 5}", "{1, 3, 8, 5, 2}"],
+        "answer": 0,
+    },
+    {
+        "id": "c-2026-silk-junior1-linear-recursion-001",
+        "category": "递归递推",
+        "difficulty": 4,
+        "source": "2026年资料/丝路新程1初中复赛/C++/C++.docx",
+        "stem": "以下递归函数模拟一次函数的递归计算，调用 linearFunc(2, 3, 4) 的返回值是？",
+        "code": "int linearFunc(int k, int x, int b) {\n    if (x == 0) return b;\n    return k + linearFunc(k, x - 1, b);\n}",
+        "options": ["10", "11", "12", "13"],
+        "answer": 0,
+    },
+    {
+        "id": "c-2026-silk-primary4-longlong-array-001",
+        "category": "数组",
+        "difficulty": 3,
+        "source": "2026年资料/丝路新程复赛卷四小学/C++/C++.docx",
+        "stem": "已知 long long silk[] = {10, 20, 30, 40};，该数组在内存中占字节数为？",
+        "code": "",
+        "options": ["16", "8", "4", "32"],
+        "answer": 3,
+    },
+    {
+        "id": "c-2026-silk-primary4-insertion-sort-001",
+        "category": "排序",
+        "difficulty": 4,
+        "source": "2026年资料/丝路新程复赛卷四小学/C++/C++.docx",
+        "stem": "对贸易数据 int data[] = {9, 5, 7, 2}; 做升序第一轮插入排序后，数组为？",
+        "code": "",
+        "options": ["5,7,2,9", "5,9,7,2", "2,5,7,9", "9,5,7,2"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-primary4-bit-expression-001",
+        "category": "位运算入门",
+        "difficulty": 4,
+        "source": "2026年资料/丝路新程复赛卷四小学/C++/C++.docx",
+        "stem": "运行以下丝路贸易金额计算程序，输出结果是？",
+        "code": "int a = 6, b = 3;\nint res = (a << 1) + (b >> 1) - (-a);\ncout << res;",
+        "options": ["16", "17", "18", "19"],
+        "answer": 3,
+    },
+    {
+        "id": "c-2026-silk-primary4-base-bit-total-001",
+        "category": "位运算入门",
+        "difficulty": 5,
+        "source": "2026年资料/丝路新程复赛卷四小学/C++/C++.docx",
+        "stem": "运行以下丝绸装箱统计程序，输出结果是？",
+        "code": "int box = 0b1101001;\nint cnt = 025;\nint total = box + (cnt & 0x1F) + (~0b101 + 1);\ncout << total;",
+        "options": ["118", "121", "124", "127"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-primary5-post-pre-inc-001",
+        "category": "表达式",
+        "difficulty": 4,
+        "source": "2026年资料/丝路新程复赛卷五小学/C++/C++.docx",
+        "stem": "执行以下程序计算两类丝绸包裹数量差值，运行后变量 result 的值为？",
+        "code": "int x = 10;\nint y = 3;\nint result = (x++) - (++y);",
+        "options": ["6", "7", "8", "9"],
+        "answer": 0,
+    },
+    {
+        "id": "c-2026-silk-primary5-loop-sum-001",
+        "category": "数组",
+        "difficulty": 3,
+        "source": "2026年资料/丝路新程复赛卷五小学/C++/C++.docx",
+        "stem": "数组依次存放四个港口单次出海的货物吨位，执行代码后 total 的值为？",
+        "code": "int goods[] = {20, 35, 15, 40};\nint total = 0;\nfor (int i = 1; i < 4; i += 2) {\n    total += goods[i];\n}",
+        "options": ["55", "75", "90", "110"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-primary5-double-001",
+        "category": "表达式",
+        "difficulty": 3,
+        "source": "2026年资料/丝路新程复赛卷五小学/C++/C++.docx",
+        "stem": "执行以下代码后 weight 的数值为？",
+        "code": "double weight = 5.0 / 2 + 10.5;",
+        "options": ["12.5", "13.0", "15.5", "7.5"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-primary5-ternary-max-001",
+        "category": "分支",
+        "difficulty": 4,
+        "source": "2026年资料/丝路新程复赛卷五小学/C++/C++.docx",
+        "stem": "利用三目运算符找出吞吐量最大值，执行代码后 max_val 的结果为？",
+        "code": "int a = 500, b = 700, c = 600;\nint max_val = (a > b) ? a : (b > c ? b : c);",
+        "options": ["500", "600", "700", "0"],
+        "answer": 2,
+    },
+    {
+        "id": "c-2026-silk-primary5-while-count-001",
+        "category": "循环",
+        "difficulty": 3,
+        "source": "2026年资料/丝路新程复赛卷五小学/C++/C++.docx",
+        "stem": "统计公元 1 到 5 年间偶数通商年份的个数，运行程序后变量 count 的最终值为？",
+        "code": "int count = 0;\nint year = 1;\nwhile (year <= 5) {\n    if (year % 2 == 0) {\n        count++;\n    }\n    year++;\n}",
+        "options": ["1", "2", "3", "5"],
+        "answer": 1,
+    },
+    {
+        "id": "c-2026-silk-primary8-base-convert-001",
+        "category": "进制转换",
+        "difficulty": 4,
+        "source": "2026年资料/复赛卷八小学组/C++/C++.docx",
+        "stem": "现有一台设备原始编号为十进制整数 87，先转换为十六进制，再将转换得到的十六进制结果继续转换为二进制。最终得到的二进制字符串是？",
+        "code": "",
+        "options": ["1010111", "11010111", "10000111", "1110101"],
+        "answer": 0,
+    },
+    {
+        "id": "c-2026-silk-primary8-map-container-001",
+        "category": "STL 基础",
+        "difficulty": 4,
+        "source": "2026年资料/复赛卷八小学组/C++/C++.docx",
+        "stem": "需要保证集装箱编号唯一，并能根据编号快速查询载重，同时希望编号自动从小到大排列。以下容器组合最优的是？",
+        "code": "",
+        "options": ["单纯使用 stack 栈", "单纯使用 queue 队列", "map<int, int> 键值对容器", "pair<int, int> 二元结构体"],
+        "answer": 2,
+    },
+    {
+        "id": "c-2026-silk-primary8-queue-stack-001",
+        "category": "栈/队列",
+        "difficulty": 4,
+        "source": "2026年资料/复赛卷八小学组/C++/C++.docx",
+        "stem": "先按照船舶到达港口的先后顺序记录港口名称，再从最后到达的港口开始逆向回溯整条航线。依次需要使用的数据结构是？",
+        "code": "",
+        "options": ["队列、栈", "栈、队列", "set、map", "pair、queue"],
+        "answer": 0,
+    },
+    {
+        "id": "c-2026-silk-primary8-prime-count-001",
+        "category": "数论",
+        "difficulty": 4,
+        "source": "2026年资料/复赛卷八小学组/C++/C++.docx",
+        "stem": "统计整数区间 [20, 40] 范围内所有质数的总个数，正确结果是？",
+        "code": "",
+        "options": ["4", "5", "6", "7"],
+        "answer": 0,
+    },
+    {
+        "id": "c-2026-silk-primary8-algo-false-001",
+        "category": "算法应用",
+        "difficulty": 5,
+        "source": "2026年资料/复赛卷八小学组/C++/C++.docx",
+        "stem": "下方代码依次完成货物排序、货物筛选、方案统计三大功能。结合代码逻辑与算法思想，判断下列说法错误的是？",
+        "code": "bool check(int w, int limit) {\n    return w <= limit;\n}\n\nlong long calc(int n) {\n    if (n == 1) return 1;\n    if (n == 2) return 2;\n    if (n == 3) return 4;\n    return calc(n - 1) + calc(n - 2) + calc(n - 3);\n}\n\nint goods[100] = {12, 5, 28, 9, 16};\nint limit = 20;\nsort(goods, goods + 5);\nint cnt = 0;\nfor (int i = 0; i < 5; i++) {\n    if (check(goods[i], limit)) cnt++;\n}\ncout << calc(5) << endl;",
+        "options": [
+            "代码中 sort 函数可选用快速排序、归并排序实现底层逻辑",
+            "for 循环逐个判断货物是否可装卸，属于贪心算法思想",
+            "calc 函数依靠前序结果推导当前方案数，属于递推算法思想",
+            "排序、贪心、递推三类算法都隶属于分治思想",
+        ],
+        "answer": 3,
+    },
+]
+
+
 CHOICE_QUESTIONS.extend(RESOURCE_2025_2026_CHOICE_QUESTIONS)
 PROGRAMMING_TASKS.extend(RESOURCE_2025_2026_PROGRAMMING_TASKS)
 CHOICE_QUESTIONS.extend(SILK_ROAD_PRIMARY_2026_CHOICE_QUESTIONS)
@@ -2960,6 +3374,7 @@ CHOICE_QUESTIONS.extend(SILK_ROAD_NEW_CITY_2026_CHOICE_QUESTIONS)
 PROGRAMMING_TASKS.extend(SILK_ROAD_NEW_CITY_2026_PROGRAMMING_TASKS)
 CHOICE_QUESTIONS.extend(SILK_ROAD_CHALLENGE_2026_CHOICE_QUESTIONS)
 PROGRAMMING_TASKS.extend(SILK_ROAD_CHALLENGE_2026_PROGRAMMING_TASKS)
+CHOICE_QUESTIONS.extend(FINAL_ROUND_CPP_SINGLE_CHOICE_QUESTIONS)
 CHOICE_QUESTIONS.extend(MULTI_CHOICE_2026_QUESTIONS)
 CHOICE_QUESTIONS.extend(FINAL_ROUND_CPP_MULTI_CHOICE_QUESTIONS)
 
@@ -3417,6 +3832,96 @@ PROGRAMMING_TASKS.extend(IMPORTED_FUZHOU_PROGRAMMING_TASKS)
 from .imported_fusai_questions import IMPORTED_FUSAI_PROGRAMMING_TASKS
 
 PROGRAMMING_TASKS.extend(IMPORTED_FUSAI_PROGRAMMING_TASKS)
+
+
+FINAL_ROUND_EXCLUDED_CHOICE_IDS = {
+    "c-official-ref-001",
+    "c-official-ptr-001",
+    "c-official-exception-001",
+    "c-official-stack-001",
+    "c-official-two-pointer-001",
+    "c-official-extra-ref-002",
+    "c-official-extra-pointer-002",
+    "c-official-extra-dp-002",
+    "c-official-extra-dp-003",
+    "c-official-extra-topo-001",
+    "c-official-extra-union-001",
+    "c-official-extra-heap-001",
+    "c-resource-2025-scope-001",
+    "c-2026-silk-primary1-prime-method-001",
+    "c-2026-silk-primary4-array-traverse-001",
+    "c-2026-silk-primary4-array-basic-001",
+    "c-2026-silk-newcity6-function-001",
+}
+
+FINAL_ROUND_EXCLUDED_CHOICE_CATEGORIES = {
+    "异常处理",
+    "引用与指针",
+    "并查集入门",
+    "堆",
+    "概率统计",
+    "计算机基础",
+    "竞赛规则理解",
+}
+
+FINAL_ROUND_EXCLUDED_PROGRAM_IDS = {
+    "p-official-knapsack01",
+    "p-official-lis",
+    "p-official-top-k",
+    "p-official-topological",
+    "p-advanced-dijkstra",
+    "p-advanced-edit-distance",
+    "p-advanced-min-coins",
+    "p-advanced-interval-diff",
+    "p-advanced-toposort",
+    "p-advanced-median-stream",
+    "p-advanced-tree-depth",
+    "fusai-program-d1271eaba44af1",
+}
+
+FINAL_ROUND_EXCLUDED_PROGRAM_CATEGORIES = {
+    "并查集入门",
+    "堆",
+    "差分",
+    "树",
+    "双指针",
+    "字符串算法",
+}
+
+FINAL_ROUND_CATEGORY_RENAMES = {
+    "动态规划入门": "递推",
+    "图论入门": "搜索入门",
+    "哈希计数": "STL 基础",
+    "整除统计": "数论",
+    "字符处理": "字符串",
+    "变量": "变量类型",
+    "语句": "程序基础",
+    "栈和队列": "栈/队列",
+    "高精度": "高精度入门",
+}
+
+
+def apply_final_round_syllabus_filter() -> None:
+    for item in CHOICE_QUESTIONS:
+        item["category"] = FINAL_ROUND_CATEGORY_RENAMES.get(item["category"], item["category"])
+    for item in PROGRAMMING_TASKS:
+        item["category"] = FINAL_ROUND_CATEGORY_RENAMES.get(item["category"], item["category"])
+
+    CHOICE_QUESTIONS[:] = [
+        item
+        for item in CHOICE_QUESTIONS
+        if item["id"] not in FINAL_ROUND_EXCLUDED_CHOICE_IDS
+        and item["category"] not in FINAL_ROUND_EXCLUDED_CHOICE_CATEGORIES
+    ]
+    PROGRAMMING_TASKS[:] = [
+        item
+        for item in PROGRAMMING_TASKS
+        if item["id"] not in FINAL_ROUND_EXCLUDED_PROGRAM_IDS
+        and item["category"] not in FINAL_ROUND_EXCLUDED_PROGRAM_CATEGORIES
+    ]
+
+
+apply_final_round_syllabus_filter()
 
 for task in PROGRAMMING_TASKS:
     if task.get("source", "").endswith("导入"):
