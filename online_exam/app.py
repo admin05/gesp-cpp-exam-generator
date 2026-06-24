@@ -144,7 +144,7 @@ def build_exam(
     return {
         "title": title,
         "duration_minutes": duration,
-        "principle": "GESP C++ 四级偏上 / 五级入门：表达式、循环、数组字符串、函数递推、排序搜索、筛法质数、贪心枚举与逻辑推理均衡覆盖。",
+        "principle": "算法应用主题赛复赛 / 总决赛 C++：程序基础、数理知识、模拟枚举、分治贪心、递推递归、排序二分、前缀和、DFS/BFS、STL 容器与栈队列等考点均衡覆盖。",
         "choice_questions": balanced_pick(CHOICE_QUESTIONS, choice_count),
         "programming_tasks": programming_tasks,
     }
