@@ -118,13 +118,10 @@ def normalize_output(value: str) -> str:
     return "\n".join(line.rstrip() for line in lines).strip()
 
 
-def balanced_pick(items: list[dict], count: int, min_difficulty: int = 0) -> list[dict]:
+def balanced_pick(items: list[dict], count: int) -> list[dict]:
     if count <= 0:
         return []
-    pool = [item for item in items if item.get("difficulty", 0) >= min_difficulty]
-    if len(pool) < count:
-        picked_ids = {item["id"] for item in pool}
-        pool.extend(item for item in items if item["id"] not in picked_ids)
+    pool = list(items)
     limit = min(count, len(pool))
     grouped: dict[str, list[dict]] = {}
     for item in pool:
@@ -216,7 +213,6 @@ def build_exam(
     choice_count: int,
     program_count: int,
     duration: int,
-    program_min_difficulty: int = 5,
     question_bank: str = "literacy",
 ) -> dict:
     choice_pool = filter_bank_items(CHOICE_QUESTIONS, question_bank, "choice")
@@ -226,7 +222,7 @@ def build_exam(
         raise RuntimeError("以下编程题缺少测试生成器：" + ", ".join(missing_generators))
     programming_tasks = [
         prepare_programming_task(task)
-        for task in balanced_pick(programming_pool, program_count, program_min_difficulty)
+        for task in balanced_pick(programming_pool, program_count)
     ]
     profile = question_bank_profile(question_bank)
     return {
@@ -517,12 +513,6 @@ def admin_page(message: str = "") -> bytes:
                 <input name="program_count" type="number" min="0" max="{len(PROGRAMMING_TASKS)}" value="4">
               </label>
             </div>
-            <label>编程题最低难度
-              <select name="program_min_difficulty">
-                <option value="5" selected>五级入门（推荐）</option>
-                <option value="4">四级偏上</option>
-              </select>
-            </label>
             <label>考试时长（分钟）
               <input name="duration" type="number" min="1" max="240" value="90">
             </label>
@@ -821,9 +811,8 @@ def handle_create_exam(params: dict[str, list[str]]) -> bytes:
     choice_total, program_total = bank_counts(question_bank)
     choice_count = max(0, min(int(params.get("choice_count", ["10"])[0]), choice_total))
     program_count = max(0, min(int(params.get("program_count", ["4"])[0]), program_total))
-    program_min_difficulty = max(4, min(int(params.get("program_min_difficulty", ["5"])[0]), 5))
     duration = max(1, min(int(params.get("duration", ["90"])[0]), 240))
-    exam_id = save_exam(build_exam(title, choice_count, program_count, duration, program_min_difficulty, question_bank))
+    exam_id = save_exam(build_exam(title, choice_count, program_count, duration, question_bank))
     return redirect(f"/admin/exams/{exam_id}")
 
 

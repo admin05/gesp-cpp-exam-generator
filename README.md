@@ -13,8 +13,7 @@ solutions, and the system records scores in SQLite.
 ## Features
 
 - Admin paper creation with configurable question-bank scope, objective-question
-  count, programming-task count, minimum programming difficulty, and exam
-  duration.
+  count, programming-task count, and exam duration.
 - Built-in question-bank profiles: all questions, literacy contest, CSP-J first
   round, CSP-J second round, GESP, and Fuzhou robot contest.
 - Objective-question bank covering C++ fundamentals, mathematical reasoning,
@@ -115,7 +114,7 @@ SQLite 数据库。
 
 ## 功能
 
-- 管理员创建试卷：可设置题库范围、客观题数量、编程题数量、编程题最低难度和考试时长。
+- 管理员创建试卷：可设置题库范围、客观题数量、编程题数量和考试时长。
 - 内置多题库范围：全部题库、素养大赛、CSP-J 第一轮、CSP-J 第二轮、GESP、
   福州机器人赛。
 - 客观题题库覆盖 C++ 程序基础、数理知识、模拟、枚举、分治、贪心、递推、递归、
